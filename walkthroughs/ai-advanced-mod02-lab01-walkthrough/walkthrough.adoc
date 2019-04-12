@@ -2,6 +2,21 @@
 
 In this lab, you develop Camel routes that process CSV files, split them into individual records, and transform them into Java objects that are output as individual JSON files. The transformation is done using the Red Hat Fuse Integration Editor. You also develop exception handling logic to process incorrectly formatted records.
 
+[type=walkthroughResource,serviceName=openshift]
+.OpenShift
+****
+* link:{openshift-host}[Openshift Console, window="_blank"]
+****
+
+[type=walkthroughResource]
+.Useful Resources
+****
+* link:https://google.com[Helpful link, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_fuse/7.2/html-single/tooling_user_guide/index[Red Hat Fuse Tooling Guide, window="_blank"]
+* link:http://camel.apache.org/file.html[Apache Camel File Component, window="_blank"]
+* link:http://camel.apache.org/splitter.html[Apache Camel Splitter, window="_blank"]
+****
+
 [time=10]
 == Introduction and Set up
 
