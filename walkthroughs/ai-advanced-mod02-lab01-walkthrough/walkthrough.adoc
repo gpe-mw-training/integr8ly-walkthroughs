@@ -190,7 +190,7 @@ Is the camel route starting correctly and running without errors?
 .. AMQ Online Broker URL: *{enmasse-broker-url}*
 .. AMQ Online Credential Username: *{enmasse-credentials-username}*
 .. AMQ Online Credential Password: *{enmasse-credentials-password}*
-. Click on link:{route-nodejs-messaging-work-queue-frontend-host]
+. Click on link:{route-nodejs-messaging-work-queue-frontend-host}[NodeJS messaging FrontEnd, window="_blank"]
 
 [type=verification]
 Are all the URLs displayed correctly?
