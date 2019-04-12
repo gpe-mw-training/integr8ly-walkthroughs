@@ -1,32 +1,24 @@
-# Example Customisations of an Integreatly cluster
+# Custom walkthroughs for an Integreatly cluster
 
 
-## Running examples
+## Running custom walkthroughs
 
-To run an example customisation you need an exiting OpenShift cluster with integreatly installed.
+To run a custom walkthrough you need an exiting OpenShift cluster with integreatly installed.
 
-Next you need to get the available inventory file from the manifest secret
+. Navigate to the `webapp` namespace and edit the resource `webapp > tutorial-web-app-operator`.
+. Edit the YAML by adding the following section in *Spec > Template > Properties*:
++
+----
+WALKTHROUGH_LOCATIONS: https://github.com/integr8ly/tutorial-web-app-walkthroughs#master,https://github.com/gpe-mw-training/integr8ly-walkthroughs#master
+----
++
+NOTE: If you do not want the default Integreatly walkthoughs to be displayed, then do not include the *https://github.com/integr8ly/tutorial-web-app-walkthroughs#master* location.
 
-```
-(mac osx)
+. Save the YAML to trigger a redeployment of the *tutorial-web-app*.
 
-oc get secret inventory -n webapp --template '{{index .data "generated_inventory"}}'  | base64 -D > inventory
-```
+## Creating custom walkthroughs
 
-```
-(Linux)
+Refer to the detailed guide below on creating custom walkthroughs:
+https://mojo.redhat.com/docs/DOC-1190932
 
-oc get secret inventory -n webapp --template '{{index .data "generated_inventory"}}'  | base64 -d > inventory
-```
-
-You should also be logged into the cluster as an admin user.
-
-You can then run the example playbook using ```ansible-playbook```
-
-```
-ansible-playbook -i inventory playbooks/add_custom_che_stack.yaml
-```
-
-## Che custom stack example
-
-[Example playbook](https://github.com/integr8ly/example-customisations/blob/master/installation/playbooks/add_custom_che_stack.yaml)
+This repository can be a common repository for all the custom walkthroughs of the GPTE middleware team. Any custom walkthroughs created should be imported here to the *walkthroughs* folder.
