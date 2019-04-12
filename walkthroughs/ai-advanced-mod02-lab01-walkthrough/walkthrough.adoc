@@ -180,16 +180,17 @@ Is the camel route starting correctly and running without errors?
 === Verify URLs
 
 . Click on link:{openshift-host}[Openshift Console, window="_blank"]
-. Click on link:{openshift-app-host}[Openshift Console, window="_blank"]
+. Click on link:{openshift-app-host}[Openshift App Host, window="_blank"]
 . Click on link:{che-url}[CodeReady Workspace, window="_blank"]
 . Click on link:{fuse-url}[Fuse Online, window="_blank"]
 . Click on link:{launcher-url}[Launcher, window="_blank"]
 . Click on link:{api-management-url}[3scale Admin Console, window="_blank"]
 . Click on link:{enmasse-url}[AMQ Online Console, window="_blank"]
 . Enmasse Broker Connection:
-.. AMQ Online Broker URL: {enmasse-broker-url}
-.. AMQ Online Credential Username: {enmasse-credentials-username}
-.. AMQ Online Credential Password: {enmasse-credentials-password}
+.. AMQ Online Broker URL: *{enmasse-broker-url}*
+.. AMQ Online Credential Username: *{enmasse-credentials-username}*
+.. AMQ Online Credential Password: *{enmasse-credentials-password}*
+. Click on link:{route-nodejs-messaging-work-queue-frontend-host]
 
 [type=verification]
 Are all the URLs displayed correctly?
