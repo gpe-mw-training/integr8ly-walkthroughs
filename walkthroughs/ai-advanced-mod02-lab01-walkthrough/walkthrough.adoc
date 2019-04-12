@@ -13,9 +13,6 @@ A lab based on Springboot Camel to consume CSV records from a file, split and tr
 ****
 * link:https://google.com[Helpful link, window="_blank"]
 * link:https://access.redhat.com/documentation/en-us/red_hat_fuse/7.2/html-single/tooling_user_guide/index[Red Hat Fuse Tooling Guide, window="_blank"]
-* link:http://camel.apache.org/file.html[Apache Camel File Component, window="_blank"]
-* link:http://camel.apache.org/splitter.html[Apache Camel Splitter, window="_blank"]
-* link:http://camel.apache.org/bindy.html[Apache Camel Bindy Component, window="_blank"]
 ****
 
 [time=10]
@@ -131,6 +128,9 @@ Is the camel route for data transformation coding complete?
 .Development Resources
 ****
 * link:http://camel.apache.org/exception-clause.html[Apache Camel Exception Clause, window="_blank"]
+* link:http://camel.apache.org/file.html[Apache Camel File Component, window="_blank"]
+* link:http://camel.apache.org/splitter.html[Apache Camel Splitter, window="_blank"]
+* link:http://camel.apache.org/bindy.html[Apache Camel Bindy Component, window="_blank"]
 ****
 
 [time=20]
@@ -173,5 +173,25 @@ Is the camel route starting correctly and running without errors?
 ****
 * link:http://camel.apache.org/spring-testing.html[Apache Camel Spring Test Support, window="_blank"]
 ****
+
+[time=10]
+== Fuse Project Setup
+
+=== Verify URLs
+
+. Click on link:{openshift-host}[Openshift Console, window="_blank"]
+. Click on link:{openshift-app-host}[Openshift Console, window="_blank"]
+. Click on link:{che-url}[CodeReady Workspace, window="_blank"]
+. Click on link:{fuse-url}[Fuse Online, window="_blank"]
+. Click on link:{launcher-url}[Launcher, window="_blank"]
+. Click on link:{api-management-url}[3scale Admin Console, window="_blank"]
+. Click on link:{enmasse-url}[AMQ Online Console, window="_blank"]
+. Enmasse Broker Connection:
+.. AMQ Online Broker URL: {enmasse-broker-url}
+.. AMQ Online Credential Username: {enmasse-credentials-username}
+.. AMQ Online Credential Password: {enmasse-credentials-password}
+
+[type=verification]
+Are all the URLs displayed correctly?
 
 
