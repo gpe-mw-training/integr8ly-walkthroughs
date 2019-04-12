@@ -1,0 +1,7 @@
+= Index of walkthrough repositories
+
+In addition to the link:https://github.com/integr8ly/tutorial-web-app-walkthroughs[walkthroughs curated by Integr8ly] the following are available:
+
+
+* link:https://github.com/integr8ly/example-customisations[integr8ly/example-customisations]
+* link:https://github.com/integr8ly/walkthrough-template[integr8ly/walkthrough-template]

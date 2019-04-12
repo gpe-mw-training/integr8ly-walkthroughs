@@ -1,0 +1,76 @@
+# Troubleshooting walkthroughs
+
+This document contains a set of common issues and errors that are encountered
+when adding a walkthrough to the Integreatly web app.
+
+## Walkthrough is not showing up in the dashboard
+
+This can be due to a number of reasons:
+
+- `WALKTHROUGH_LOCATIONS` does not contain a repo or path with the walkthrough.
+  * Ensure `WALKTHROUGH_LOCATIONS` contains a path or a repo with the walkthrough inside of it.
+  * If in a repo, ensure the walkthrough is in the `walkthroughs` directory of the
+  repo. 
+- The repo containing the walkthrough in `WALKTHROUGH_LOCATIONS` was updated after the server has started.
+  * If the repo was updated after the server has started, invoke the `POST /sync-walkthroughs` endpoint, for example `curl -X POST localhost:3006/sync-walkthroughs`.
++
+NOTE: This sync feature only works for local development, it does not work when the web app is hosted on OpenShift. When necessary restart or redeploy the web app.
+
+
+## ServiceInstances are not being created
+
+This issue can occur for a number of reasons:
+
+- The first task in a walkthrough has not been started yet
+  * ServiceInstances are provisioned when the first task in a walkthrough is loaded.
+  Ensure you've started the walkthrough from the web app to begin the provisioning.
+- The ServiceInstance spec is invalid.
+  * The `serviceInstances` object in `walkthrough.json` should be an array of
+    `ServiceInstance` resources. An example of a `ServiceInstance` resource is:
+[source,json]
+----
+{
+  "kind":"ServiceInstance",
+  "apiVersion":"servicecatalog.k8s.io/v1beta1",
+  "spec": {
+    "clusterServiceClassExternalName": "my-service-class",
+    "clusterServicePlanExternalName": "default",
+    "parameters": {
+      "paramOne": "valueOne"
+    }
+  }
+}
+----
+
+## Images and videos are not rendering
+
+This issue can occur for a number of reasons:
+
+- The media isn't contained in the walkthrough directory.
+  * If the media isn't inside the directory of the walkthrough it may not be
+  included when the walkthrough is hosted in the web app. It is recommended to
+  bundle any media with the walkthrough.
+- The Asciidoc link:https://asciidoctor.org/docs/asciidoc-writers-guide/#images[`image`] and link:https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/#videos[`video`] tags aren't being used.
+  * If images or videos are referenced using, for example, `<img/>` tags then
+  the path to the media may not be built properly when hosted in the web app. It
+  is recommended to use the Asciidoc `image` and `video` tags.
+
+## Error "Could not read Username for '<hostname>': terminal prompts disabled" in web app logs
+
+This issue is caused by Git attempting to prompt for credentials. This can be
+for a number of reasons:
+
+- The Git repository is private and needs credentials to be setup.
+- The Git repository URL is incorrect, the repository does not exist.
+
+## Error "Could not find walkthroughs directory in provided location: <directory>" in web app logs
+
+This issue is caused by a repository specified in `WALKTHROUGH_LOCATIONS` not
+containing a `walkthroughs` directory. All walkthroughs must be contained within
+a `walkthroughs` directory.
+
+## Error "No walkthrough.adoc present in <directory>" in web app logs
+
+This issue is caused by a walkthrough directory in one of the specified
+repositories or paths in `WALKTHROUGH_LOCATIONS` not containing a `walkthrough.adoc`
+file. To resolve this ensure every walkthrough contains a `walkthrough.adoc` file.
