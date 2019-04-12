@@ -1,6 +1,6 @@
-= Agile Integration Advanced - Fuse Split and Transform Files Lab
+= Agile Integration Advanced - File Split and Transform Files Lab
 
-In this lab, you develop Camel routes that process CSV files, split them into individual records, and transform them into Java objects that are output as individual JSON files. The transformation is done using the Red Hat Fuse Integration Editor. You also develop exception handling logic to process incorrectly formatted records.
+A lab based on Springboot Camel to consume CSV records from a file, split and transform to individual JSON output files.
 
 [type=walkthroughResource,serviceName=openshift]
 .OpenShift
@@ -15,11 +15,13 @@ In this lab, you develop Camel routes that process CSV files, split them into in
 * link:https://access.redhat.com/documentation/en-us/red_hat_fuse/7.2/html-single/tooling_user_guide/index[Red Hat Fuse Tooling Guide, window="_blank"]
 * link:http://camel.apache.org/file.html[Apache Camel File Component, window="_blank"]
 * link:http://camel.apache.org/splitter.html[Apache Camel Splitter, window="_blank"]
+* link:http://camel.apache.org/bindy.html[Apache Camel Bindy Component, window="_blank"]
 ****
 
 [time=10]
 == Introduction and Set up
 
+In this lab, you develop Camel routes that process CSV files, split them into individual records, and transform them into Java objects that are output as individual JSON files. The transformation is done using the Red Hat Fuse Integration Editor. You also develop exception handling logic to process incorrectly formatted records.
 
 === Goals
 
@@ -32,10 +34,9 @@ In this lab, you develop Camel routes that process CSV files, split them into in
 
 === Usecase Diagram
 
-image::images/Fuse_Exp_Usecase_Mod1_File.png[]
+image::images/Fuse_Exp_Usecase_Mod1_File.png[diagram, role="integr8ly-img-responsive"]
 
 === Import the Project into Red Hat Developer Studio
-
 
 . Open *Red Hat Developer Studio*.
 .. Select *File -> Import* from the menu.
@@ -44,7 +45,20 @@ image::images/Fuse_Exp_Usecase_Mod1_File.png[]
 .. In *Projects*, make sure the */pom.xml* box is checked for `com.redhat.gpte.training:>file-split-transform-lab:1.0.0:pom`:
 .. Click *Finish*.
 
- The imported use case now appears in Red Hat Developer Studio.
+. The imported use case now appears in Red Hat Developer Studio.
+
+[type=verification]
+Did the project get imported correctly to your workspace?
+
+[type=verificationFail]
+Ensure the project pom is selected and there are no build errors on import.
+
+[type=taskResource]
+.Red Hat CodeReady Studio
+****
+* link:https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/12.11/html-single/installation_guide/index[Installation Guide, window="_blank"]
+****
+
 
 [time=60]
 == Develop the Solution
@@ -56,8 +70,12 @@ image::images/Fuse_Exp_Usecase_Mod1_File.png[]
 * Make sure the position of the field corresponds to the position of the CSV column within the CSV record.
 * Specify that the separator is `,`.
 * Use the `camel-bindy` component to compile the code.
-+
+
 NOTE: The model class should already be provided to you. Please open the Customer Java file and review the CSV annotations.
+
+[type=verification]
+Does the model class `Customer` exist in your project?
+
 
 === Develop the Routing Module
 
@@ -80,6 +98,10 @@ NOTE: The model class should already be provided to you. Please open the Custome
 ** Error endpoint file URI: `src/data/error?fileName=csv-record-${date:now:yyyyMMdd}.txt`
 ** `onException` interceptor exception type: `java.lang.IllegalArgumentException`
 
+[type=verification]
+Is the camel route for split and exception block coding complete?
+
+
 === Define and Use the `csv2json` Data Transformation
 
 . From the *Red Hat Fuse Integration Editor*, drag and drop a *Data Transformation* endpoint and create the `csv2json` transformation using the wizard.
@@ -90,7 +112,7 @@ The current version of the JBDS plug-ins do not support multi-module projects. T
 * Use the Customer Java class you created previously as the input format.
 * Select the target model using the `account.json` file located in the `src/main/resources/schema/json/` directory.
 +
-image::images/csv2json.png[]
+image::images/csv2json.png[diagram, role="integr8ly-img-responsive"]
 
 . Edit the data transformation file to map the Customer fields to the corresponding fields within the Account `company` and `contact` classes.
 +
@@ -101,6 +123,15 @@ NOTE: By default, the tool generates the classes for the JSON model in the `acco
 WARNING: Because the CSV input source is not available as source when you generate the data mapping, the Bindy data format is not added to the `<DataFormats>` XML tag of the Apache Camel route. You must edit the Apache Camel route's source code to add the `<bindy />` XML tag with the following parameters: `id="csv"`, `type="csv"`, and `classType="org.acme.Customer"`. You must also add the `unmarshalId` parameter to the endpoint definition to use the CSV data format to unmarshall the content.
 
 . Update the Apache Camel route to include the data transformation endpoint after the exchanges have been split.
+
+[type=verification]
+Is the camel route for data transformation coding complete?
+
+[type=taskResource]
+.Development Resources
+****
+* link:http://camel.apache.org/exception-clause.html[Apache Camel Exception Clause, window="_blank"]
+****
 
 [time=20]
 == Verify your Solution
@@ -119,6 +150,9 @@ In this exercise, you develop a JUnit test case to validate the `csv2json` data 
 ** Mock endpoint URI: `mock:csv2json-test-output`
 ** Direct endpoint URI: `direct:csv2json-test-input`
 
+[type=verification]
+Is the unit test class compiling and working correctly?
+
 === Run the Camel Route Locally
 
 . Build the `routing` project and test it locally:
@@ -129,7 +163,15 @@ $ mvn clean install
 $ mvn spring-boot:run
 ----
 
-You should see the camel route consume the file `customers.csv` from `src/data/inbox`, and write 3 output files viz. *account-0.json*, *account-1.json* and *account-2.json* to `src/data/outox` folder. Also, an error file should be created in `src/data/error` folder.
+. You should see the camel route consume the file `customers.csv` from `src/data/inbox`, and write 3 output files viz. *account-0.json*, *account-1.json* and *account-2.json* to `src/data/outox` folder. Also, an error file should be created in `src/data/error` folder.
 
+[type=verification]
+Is the camel route starting correctly and running without errors?
+
+[type=taskResource]
+.Development Resources
+****
+* link:http://camel.apache.org/spring-testing.html[Apache Camel Spring Test Support, window="_blank"]
+****
 
 
