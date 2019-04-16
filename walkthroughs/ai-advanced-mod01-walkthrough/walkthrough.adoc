@@ -199,7 +199,8 @@ oc new-app --namespace {user-sanitized-username}-fuse \
 ----
 
 . Check that the broker pod is running.
-. Make a note of the console URL. You can access the console URL from a web browser and ensure the broker is started correctly.
+. Make a note of the link:{route-broker-amq-jolokia-host} [AMQ Broker Console URL, window="_blank"]. 
+. Login to console using credentials `admin` and `password`.
 . The broker service url for AMQP would be `broker-amq-amqp:5672`. Make a note of this when configuring the AMQ connection for the labs.
 
 
