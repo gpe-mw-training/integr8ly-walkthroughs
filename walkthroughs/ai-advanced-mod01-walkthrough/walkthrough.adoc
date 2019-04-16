@@ -11,8 +11,8 @@ In this lab, you set up the environment for the labs in this course.
 [type=walkthroughResource]
 .Useful Resources
 ****
-* link:https://google.com[Helpful link, window="_blank"]
-* link:https://access.redhat.com/documentation/en-us/red_hat_fuse/7.2/html-single/tooling_user_guide/index[Red Hat Fuse Tooling Guide, window="_blank"]
+* link:https://github.com/integr8ly[Integreatly, window="_blank"]
+
 ****
 
 [time=10]
@@ -50,7 +50,7 @@ Verify that the following software is installed on your machine. If not, follow 
 . Maven 3.3.9+
 . Git
 . OpenShift CLI 3.11
-. SoapUI
+. SoapUI (Optional)
 
 [type=verification]
 Are all the required developer tools available in your local workstation?
@@ -122,10 +122,8 @@ Please follow the links on the right to download and install Red Hat AMQ 7.2.0 b
 * link:http://maven.apache.org[Apache Maven(version 3.3.9+), window="_blank"]
 * link:https://git-scm.com/downloads[Git(latest version), window="_blank"]
 * link:https://access.redhat.com/downloads/content/290/ver=3.9/rhel---7/3.9.25/x86_64/product-software[OpenShift CLI client(version 3.11), window="_blank"]
-* (Optional) link:https://www.soapui.org/downloads/soapui.html[SoapUI(latest version), window="_blank"]
+* link:https://www.soapui.org/downloads/soapui.html[SoapUI(latest version), window="_blank"]
 
-
-[type=taskResource]
 .Red Hat Product Documentation
 ****
 * link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat Developer Studio Product Documentation, window="_blank"]
@@ -141,9 +139,9 @@ A shared Integreatly OpenShift cluster is provisioned for use during the class. 
 
 ==== Credentials
 
-Your OpenShift Host URL is `{openshift-host}`.
-Your username is `{user-sanitized-username}@example.com`.
-Your password is `Password1`.
+* Your OpenShift Host URL is `{openshift-host}`.
+* Your username is `{user-sanitized-username}@example.com`.
+* Your password is `Password1`.
 
 === Create OpenShift Namespace `{user-sanitized-username}-fuse`
 
@@ -171,22 +169,28 @@ We need to deploy AMQ 7 broker on OpenShift Container Platform. The general inst
 +
 [subs="attributes"]
 ----
-$ oc project {user-sanitized-username}-fuse
+oc project {user-sanitized-username}-fuse
 ----
 
-. Add the *view* role to the service account:
+. Create the service account `amq-service-account`:
 +
 [subs="attributes"]
 ----
-$ echo '{"kind": "ServiceAccount", "apiVersion": "v1", "metadata": {"name": "amq-service-account"}}' | oc create -f -
-$ oc policy add-role-to-user view system:serviceaccount:{user-sanitized-username}-fuse:amq-service-account
+echo '{"kind": "ServiceAccount", "apiVersion": "v1", "metadata": {"name": "amq-service-account"}}' | oc create -f -
+----
+
+. Provide `view` role to `amq-service-account`:
++
+[subs="attributes"]
+----
+oc policy add-role-to-user view system:serviceaccount:{user-sanitized-username}-fuse:amq-service-account
 ----
 
 . Deploy the broker:
 +
 [subs="attributes"]
 ----
-$ oc new-app --namespace {user-sanitized-username}-fuse \
+oc new-app --namespace {user-sanitized-username}-fuse \
    --template=amq-broker-72-basic \
    -e AMQ_PROTOCOL=openwire,amqp,stomp,mqtt,hornetq \
    -e AMQ_USER=admin \
@@ -215,14 +219,14 @@ We need to deploy PostgreSQL database on OpenShift Container Platform. The gener
 +
 [subs="attributes"]
 ----
-$ oc project {user-sanitized-username}-fuse
+oc project {user-sanitized-username}-fuse
 ----
 
 . Deploy the database:
 +
 [subs="attributes"]
 ----
-$ oc new-app --namespace {user-sanitized-username}-fuse \
+oc new-app --namespace {user-sanitized-username}-fuse \
     -e POSTGRESQL_USER=postgres \
     -e POSTGRESQL_PASSWORD=postgres \
     -e POSTGRESQL_DATABASE=sampledb \
@@ -230,11 +234,16 @@ $ oc new-app --namespace {user-sanitized-username}-fuse \
 ----
 
 . Check that the database pod is running.
-. Identify the name of the pod running PostgreSQL and open a remote shell to the pod:
+. Identify the name of the pod running PostgreSQL:
 +
 ----
-$  oc get pods | grep postgresql
-$  oc rsh <pod>
+oc get pods | grep postgresql
+----
+
+. Note the pod name, and open a remote shell to the pod:
++
+----
+oc rsh <pod>
 ----
 
 . Log in to PostgreSQL and create the *sampledb* database.
@@ -249,9 +258,7 @@ sampledb=#
 
 ----
 
-. Create the tables.
-+
-Run the following commands on the PostgreSQL command line:
+. Create the tables. Run the following commands on the PostgreSQL command line:
 +
 ----
 CREATE SCHEMA USECASE;
@@ -281,8 +288,8 @@ CREATE TABLE USECASE.T_ERROR (
     STATUS CHAR(6)
 );
 ----
-+
-NOTE: You can use `\q` to exit the PostgreSQL command line.
+
+. You can use `\q` to exit the PostgreSQL command line.
 
 [type=verification]
 Is PostgreSQL installed successfully on OpenShift?
