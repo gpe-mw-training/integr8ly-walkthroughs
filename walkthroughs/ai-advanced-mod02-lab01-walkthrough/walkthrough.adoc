@@ -51,9 +51,9 @@ Did the project get imported correctly to your workspace?
 Ensure the project pom is selected and there are no build errors on import.
 
 [type=taskResource]
-.Red Hat CodeReady Studio
+.Red Hat Developer Studio
 ****
-* link:https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/12.11/html-single/installation_guide/index[Installation Guide, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat Developer Studio Product Documentation, window="_blank"]
 ****
 
 

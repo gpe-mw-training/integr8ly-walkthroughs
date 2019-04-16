@@ -52,9 +52,9 @@ Did the project get imported correctly to your workspace?
 Ensure the project pom is selected and there are no build errors on import.
 
 [type=taskResource]
-.Red Hat CodeReady Studio
+.Red Hat Developer Studio
 ****
-* link:https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/12.11/html-single/installation_guide/index[Installation Guide, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat Developer Studio Product Documentation, window="_blank"]
 ****
 
 
@@ -114,10 +114,15 @@ Is the camel route coding complete?
 
 === Run the Camel Route 
 
-. Build the project and test it locally:
+. Build the project:
 +
 ----
 mvn clean install
+----
+
+. Run the project locally:
++
+----
 mvn spring-boot:run
 ----
 
@@ -131,7 +136,7 @@ Route: 32d64e54-9ae4-42d3-b175-9cfd81733379 started and consuming from: servlet:
 . Send a curl request to the REST endpoint:
 +
 ----
-$ curl -k http://localhost:8080/rest/service/customers -X POST  -d 'Rotobots,NA,true,Bill,Smith,100 N Park Ave.,Phoenix,AZ,85017,602-555-1100;BikesBikesBikes,NA,true,George,Jungle,1101 Smith St.,Raleigh,NC,27519,919-555-0800;CloudyCloud,EU,true,Fred,Quicksand,202 Barney Blvd.,Rock City,MI,19728,313-555-1234;ErrorError,,,EU,true,Fred,Quicksand,202 Barney Blvd.,Rock City,MI,19728,313-555-1234' -H 'content-type: text/html'
+curl -k http://localhost:8080/rest/service/customers -X POST  -d 'Rotobots,NA,true,Bill,Smith,100 N Park Ave.,Phoenix,AZ,85017,602-555-1100;BikesBikesBikes,NA,true,George,Jungle,1101 Smith St.,Raleigh,NC,27519,919-555-0800;CloudyCloud,EU,true,Fred,Quicksand,202 Barney Blvd.,Rock City,MI,19728,313-555-1234;ErrorError,,,EU,true,Fred,Quicksand,202 Barney Blvd.,Rock City,MI,19728,313-555-1234' -H 'content-type: text/html'
 ----
 
 . Check for any errors or exceptions in the Camel console.
