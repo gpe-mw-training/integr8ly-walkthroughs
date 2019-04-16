@@ -1,4 +1,4 @@
-= Agile Integration Advanced - Fuse Split and Transform Files Lab
+= Agile Integration Advanced LAB 2- Fuse Split and Transform Files Lab
 
 A lab based on Springboot Camel to consume CSV records from a file, split and transform to individual JSON output files.
 
