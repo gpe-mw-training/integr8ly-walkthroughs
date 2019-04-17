@@ -147,6 +147,7 @@ curl -k http://`oc get route rest-cxfrs-service -o template --template {{.spec.h
 ----
 {"clientId":0,"salesRepresentative":null,"company":{"name":"Rotobots","geo":"NORTH_AMERICA","active":true},"contact":{"firstName":"Bill","lastName":"Smith","streetAddr":"100 N Park Ave.","city":"Phoenix","state":"AZ","zip":"85017","phone":"602-555-1100"}}
 ----
+
 === SOAP Web Service 
 
 A SOAP Web Service is provided as part of the assets for this lab. This service is developed using CXF-WS, and deployed on Apache Karaf. The service is running on Red Hat Fuse 6.3. This service is available in the project *soap-cxfws-service*.
