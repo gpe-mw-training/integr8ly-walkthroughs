@@ -456,11 +456,13 @@ Is the camel route starting correctly and running without errors?
 
 When we deploy the project to OpenShift Container Platform, we will use the PostgreSQL database and schema we set up earlier, instead of using the embedded H2 database. You can find the configuration details in the `application.properties` and `deployment.yml` files.
 
+The schema and tables for the PostgreSQL database have already been created as part of the Environment Set up lab.
+
 === Deploy to OpenShift
 
 * Change the `server.port` value in `application.properties` to 8080.
 * In a terminal, login to your OCP instance by copying the login command from the OpenShift console.
-. Use the namespace `{user-sanitized-username}-fuse`:
+* Use the namespace `{user-sanitized-username}-fuse`:
 +
 [subs="attributes"]
 ----
@@ -475,7 +477,7 @@ mvn fabric8:deploy -Popenshift
 ----
 
 * Check if your project is deployed successfully.
-. Check that the route runs successfully, consuming all 3 messages from accountQueue, and writing to the database.
+* Check that the route runs successfully, consuming all 3 messages from accountQueue, and writing to the database.
 
 [type=verification]
 Is the Fuse project deployed successfully on OpenShift?

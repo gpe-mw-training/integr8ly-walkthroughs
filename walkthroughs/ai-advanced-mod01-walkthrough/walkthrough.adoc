@@ -142,6 +142,7 @@ A shared Integreatly OpenShift cluster is provisioned for use during the class. 
 * Your username is `{user-sanitized-username}@example.com`.
 * Your password is `Password1`.
 
+[subs="attributes"]
 === Create OpenShift Namespace `{user-sanitized-username}-fuse`
 
 
