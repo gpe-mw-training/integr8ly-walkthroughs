@@ -201,9 +201,10 @@ oc new-app --namespace {user-sanitized-username}-fuse \
 +
 [subs="attributes]
 ----
-oc get route console
+echo http://`oc get route console -o template --template {{.spec.host}}`
 ---- 
 
+. Navigate to the console URL in a browser.
 . Login to console using credentials `admin` and `password`.
 . The broker service url for AMQP would be `broker-amq-amqp:5672`. Make a note of this when configuring the AMQ connection for the labs.
 
