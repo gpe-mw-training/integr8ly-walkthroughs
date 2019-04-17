@@ -142,9 +142,7 @@ A shared Integreatly OpenShift cluster is provisioned for use during the class. 
 * Your username is `{user-sanitized-username}@example.com`.
 * Your password is `Password1`.
 
-[subs="attributes"]
-=== Create OpenShift Namespace {user-sanitized-username}-fuse
-
+=== Create OpenShift Namespace 
 
 . Login to the link:{openshift-host}[OpenShift Master, window="_blank"] using the credentials above.
 . Copy the login command from the browser and use it to login from a terminal.
