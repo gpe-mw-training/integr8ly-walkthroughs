@@ -252,11 +252,28 @@ oc get pods | grep postgresql
 oc rsh <pod>
 ----
 
-. Log in to PostgreSQL and create the *sampledb* database.
+. You should see a shell prompt as below:
 +
 ----
-sh-4.2$ createdb -h localhost -p 5432 -U postgres sampledb
-sh-4.2$ PGPASSWORD=$POSTGRESQL_PASSWORD psql -h postgresql $POSTGRESQL_DATABASE $POSTGRESQL_USER
+sh-4.2$
+----
+
+. Create the `sampledb` database:
++
+----
+createdb -h localhost -p 5432 -U postgres sampledb
+----
+
+. Log in to PostgreSQL:
++
+----
+PGPASSWORD=$POSTGRESQL_PASSWORD psql -h postgresql $POSTGRESQL_DATABASE $POSTGRESQL_USER
+
+----
+
+. You should see a database prompt as follows:
++
+----
 psql (9.6.10)
 Type "help" for help.
 
