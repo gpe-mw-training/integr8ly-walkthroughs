@@ -1,6 +1,6 @@
-= Agile Integration Advanced LAB 4 - Fuse Fix Errors & Publish Records Lab
+= Agile Integration Advanced LAB 4 - Fuse Fix Errors And Publish Records Lab
 
-A lab based on Springboot Camel to consume records using REST into an input queue, process the records to a database, and provide DLQ pattern for fixing error records.
+A lab based on Springboot Camel to consume records using REST into an input queue, provide DLQ pattern for fixing error records and reprocess corrected records to AMQ.
 
 [type=walkthroughResource,serviceName=openshift]
 .OpenShift
