@@ -1,4 +1,4 @@
-= Agile Integration Advanced LAB 5 - Fuse Migrate Fuse6 Services Lab
+= Agile Integration Advanced LAB 6 - Fuse Migrate Fuse6 Services Lab
 
 In this lab, you develop a Camel route to migrate legacy SOAP services to provide a REST API wrapper using Camel.
 
@@ -113,7 +113,7 @@ $ curl -k http://localhost:8080/api/jaxrs/account -X PUT  -d '{"company":{"name"
 ----
 
 [type=verification]
-Is the camel route coding complete?
+Is the camel route working correctly?
 
 
 [type=taskResource]
@@ -138,18 +138,18 @@ Is the camel route coding complete?
 oc project {user-sanitized-username}-fuse
 ----
 
-. Navigate to root folder of the  *legacy-soap-rest-wrapper* project.
+* Navigate to root folder of the  *legacy-soap-rest-wrapper* project.
 
-. Execute the following Maven command from the terminal:
+* Execute the following Maven command from the terminal:
 +
 ----
 mvn fabric8:deploy
 ----
 
-. Check that the project is deployed successfully. A pod for the deployment *legacy-soap-rest-wrapper* should be started. 
-. Notice the URL of the endpoint for external traffic.
+* Check that the project is deployed successfully. A pod for the deployment *legacy-soap-rest-wrapper* should be started. 
+* Notice the URL of the endpoint for external traffic.
 
-. You can test the SOAP service by running the same SOAP UI request above, replacing the localhost URL with the remote URL. The response received should be the same as in localhost.
+* You can test the SOAP service by running the same SOAP UI request above, replacing the localhost URL with the remote URL. The response received should be the same as in localhost.
 
 [type=verification]
 Is the Fuse project deployed successfully on OpenShift?
