@@ -276,6 +276,11 @@ image::images/fuse-online-activity-log.png[diagram, role="integr8ly-img-responsi
 +
 ----
 sampledb=# select * from t_account;
+----
+
+. The response should be as follows:
++
+----
  id | client_id | sales_contact | company_name |     company_geo      | company_active | contact_firs
 t_name | contact_last_name | contact_address | contact_city | contact_state | contact_zip | contact_e
 mail | contact_phone |       creation_date        | creation_user 
