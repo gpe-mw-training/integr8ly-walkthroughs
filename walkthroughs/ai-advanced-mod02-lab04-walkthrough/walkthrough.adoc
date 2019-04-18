@@ -1,6 +1,6 @@
 = Agile Integration Advanced LAB 5 - Fuse Enrich Content and Aggregate Data Lab
 
-A lab based on Springboot Camel process the account records in JSON format from AMQ, and through enrichment and aggregation create a more complete account record persisted in the database.
+A lab based on Springboot Camel to process the account records in JSON format from AMQ, and through enrichment and aggregation create a more complete account record persisted in the database.
 
 [type=walkthroughResource,serviceName=openshift]
 .OpenShift
@@ -285,7 +285,7 @@ mvn fabric8:deploy
 . Determine the URL of the Web Service by using the following command:
 +
 ----
-echo http://`oc get route rest-cxfrs-service -o template --template {{.spec.host}}`/ws/customerService
+echo http://`oc get route soap-cxfws-service -o template --template {{.spec.host}}`/ws/customerService
 ----
 
 . You can test the SOAP service by running the same SOAP UI request above, replacing the localhost URL with the remote URL. The response received should be the same as for localhost.
