@@ -5,8 +5,8 @@
 
 To run a custom walkthrough you need an exiting OpenShift cluster with integreatly installed.
 
-. Navigate to the `webapp` namespace and edit the resource `webapp > tutorial-web-app-operator`.
-. Edit the YAML by adding the following section in *Spec > Template > Properties*:
+* Navigate to the `webapp` namespace and edit the resource `webapp > tutorial-web-app-operator`.
+* Edit the YAML by adding the following section in *Spec > Template > Properties*:
 +
 ----
 WALKTHROUGH_LOCATIONS: https://github.com/integr8ly/tutorial-web-app-walkthroughs#master,https://github.com/gpe-mw-training/integr8ly-walkthroughs#master
@@ -14,7 +14,7 @@ WALKTHROUGH_LOCATIONS: https://github.com/integr8ly/tutorial-web-app-walkthrough
 +
 NOTE: If you do not want the default Integreatly walkthoughs to be displayed, then do not include the *https://github.com/integr8ly/tutorial-web-app-walkthroughs#master* location.
 
-. Save the YAML to trigger a redeployment of the *tutorial-web-app*.
+* Save the YAML to trigger a redeployment of the *tutorial-web-app*.
 
 ## Creating custom walkthroughs
 
