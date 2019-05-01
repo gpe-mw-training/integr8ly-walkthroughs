@@ -1,0 +1,186 @@
+= Agile Integration Advanced LAB 10 - 3scale API Service Discovery
+
+In this lab, you change the Red Hat Fuse Online integration API to make the service discoverable by 3scale API Management. You will then manage the API in 3scale API Management and ensure the requests are routed to the integration through the 3scale API Management Gateway.
+
+[type=walkthroughResource,serviceName=openshift]
+.OpenShift
+****
+* link:{openshift-host}[Openshift Console, window="_blank"]
+
+****
+
+[type=walkthroughResource,serviceName=amq-online-standard]
+.AMQ Online
+****
+* link:{enmasse-url}[AMQ Online Console, window="_blank"]
+****
+
+[type=walkthroughResource]
+.Useful Resources
+****
+* link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/using_amq_online_on_openshift_container_platform/index[Red Hat AMQ Online, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/evaluating_amq_online_on_openshift_container_platform/index[Red Hat AMQ Online Evaluating for Production, window="_blank"]
+****
+
+[time=10]
+== Introduction and Set up
+
+In this lab, you change the Red Hat Fuse Online integration API to make the service discoverable by 3scale API Management. You will then manage the API in 3scale API Management and ensure the requests are routed to the integration through the 3scale API Management Gateway.
+
+=== Goals
+
+* Change the Integration Service
+* Discover Integration Service in 3scale API Management
+* Create Application Plan & Application in 3scale API Management
+* Test the API request via 3scale API Management
+
+
+=== Login to 3scale Admin Console
+
+. Click on the link:{enmasse-url}[AMQ Online Console, window="_blank"] to open the `AMQ Online Console`.
+. You should login with the following credentials:
+.. *Username*: `{user-sanitized-username}`
+.. *Password*: `openshift`
+
+[type=verification]
+Were you able to login to the 3scale Admin Console?
+
+
+[time=20]
+== Develop the Solution
+
+Develop the solution by following the steps below.
+
+
+=== Service
+
+The *i-apitosqlenrich* service created as part of the Red Hat Fuse Online lab needs to be edited to make the service discoverable by 3scale API Management. This ensures that 3scale API Management can automatically scan the services in the OpenShift cluster and ensure that the service is imported correctly.
+
+. Edit the service *i-apitosqlenrich* in the OpenShift project *user$seq-fuse*:
++
+----
+oc edit svc i-apitosqlenrich
+----
+. Add the following line under labels:
++
+----
+    discovery.3scale.net: "true"
+----
+
+. Add the following lines under *annotations*:
++
+----
+    discovery.3scale.net/description-path: /openapi.json
+    discovery.3scale.net/path: 
+    discovery.3scale.net/port: "8080"
+    discovery.3scale.net/scheme: http
+
+----
+
+. Save the changes.
+
+
+[type=verification]
+Were you able to edit the i-apitosqlenrich service successfully?
+
+=== 3scale
+
+The rest of the configuration needs to be done in the 3scale API Management Platform administration console. Please log in to your 3scale API Management Platform administration console with the user ID and password details provided by the instructor.
+
+==== Discovery
+
+. In the home page, click *New API*.
++
+image::images/3scale-new-api-start.png[diagram, role="integr8ly-img-responsive"]
+
+. Select the button *Import from OpenShift*. Select your Red Hat Fuse Online namespace and corresponding *i-apitosqlenrich* service.
++
+image::images/3scale-new-api-discover.png[diagram, role="integr8ly-img-responsive"]
+
+. Click *Create Service*. The service will be imported within a few minutes and appear in the list of integrations.
+
+==== Integration
+
+. Click *Integrate this API* next to the API service.
++
+image::images/3scale-new-api-integrate.png[diagram, role="integr8ly-img-responsive"]
+
+. Provide the *Staging Public Base URL* and *Production Public Base URL* corresponding to the OpenShift route to your *apicast-staging* and *apicast-production* applications.
+
+. Add a new mapping rule:
+.. *verb*: PUT
+.. *Pattern*: /
+.. *+*: 1
+.. *Metric or Method*: hits
++
+image::images/3scale-new-api-integrate-mapping.png[diagram, role="integr8ly-img-responsive"]
+
+. Leave the rest of the default values unchanged and click *Update & test in Staging Environment*.
+. Click *Create Application Plan*
+.. *Name*: basic
+.. *System name*: i-apitosqlenrich/basic
++
+image::images/3scale-new-api-integrate-app-plan.png[diagram, role="integr8ly-img-responsive"]
+
+. Create the application plan.
+. Publish the application plan.
+
+==== Application
+
+. Click *Audience*.
+. Click *1* under the *Apps* for *Developer* account.
++
+image::images/3scale-new-api-audience-app-create.png[diagram, role="integr8ly-img-responsive"]
+
+. Click *Create Application*.
++
+image::images/3scale-new-api-audience-app-create-new.png[diagram, role="integr8ly-img-responsive"]
+
+. In the *Create Application* page:
+.. *Application Plan*: basic
++
+NOTE: This should be the same application plan you created in the integration.
+
+.. *Name*: DeveloperAccountPlan
+.. *Description*: Developer Account Plan
++
+image::images/3scale-new-api-audience-app-create-details.png[diagram, role="integr8ly-img-responsive"]
+
+. Click *Create Application*.
+. Note the *API Credentials* user key. You need this to make a request to the API on 3scale API Management.
++
+image::images/3scale-new-api-audience-app-create-complete.png[diagram, role="integr8ly-img-responsive"]
+
+[time=30]
+== Test your Solution
+
+=== Test 3scale Staging Endpoint
+
+
+. Use the following *curl* command to make a request to the 3scale API Management staging route:
++
+----
+curl -k <user$seq staging route>/rest/account?user_key=<user$seq application key> -X PUT  -d '{"company":{"name":"Rotobots","geo":"NA","active":true},"contact":{"firstName":"Bill","lastName":"Smith","streetAddr":"100 N Park Ave.","city":"Phoenix","state":"AZ","zip":"85017","phone":"602-555-1100"}}' -H 'content-type: application/json'
+
+----
+
+. If the request is successful you should receive the following response:
++
+----
+{"result": "Account created successfully."}	
+----
+
+. Also check the Analytics in 3scale API Management to ensure the request is recorded.
+. Verify the Red Hat Fuse Online integration Activity log to monitor the request.
+
+
+[type=verification]
+Is the API request handled correctly in 3scale and Fuse Online?
+
+=== Test 3scale Production Endpoint
+
+You can promote the service to production in 3scale API Management and verify that the API request to production works successfully.
+
+[type=verification]
+Is the Fuse Online Integration running successfully with AMQ Online endpoint?
+
