@@ -13,7 +13,7 @@ In this lab, you change the Red Hat Fuse Online integration API to make the serv
 
 ****
 
-[type=walkthroughResource,serviceName=amq-online-standard]
+[type=walkthroughResource]
 .3scale Admin Console
 ****
 * link:{3scale-admin-url}[3scale Admin Console, window="_blank"]
@@ -41,7 +41,7 @@ In this lab, you change the Red Hat Fuse Online integration API to make the serv
 
 === Login to 3scale Admin Console
 
-. Click on the link:{3scale-admin-url}[3scale Admin Console, window="_blank"] to open the `AMQ Online Console`.
+. Click on the link:{3scale-admin-url}[3scale Admin Console, window="_blank"] to open the `3scale Admin Console`.
 . You should login with the following credentials:
 .. *Username*: `{user-sanitized-username}`
 .. *Password*: `openshift`
