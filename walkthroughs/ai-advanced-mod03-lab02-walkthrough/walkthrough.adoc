@@ -43,7 +43,7 @@ image::images/rest_enrich_insert_fuse_online.png[diagram, role="integr8ly-img-re
 
 === Login to Fuse Online
 
-. Click on the link:{fuse-url} to open the `Fuse Online Console`.
+. Click on the link:{fuse-url}[Fuse Online Console, window="_blank"] to open the `Fuse Online Console`.
 . You should login with the following credentials:
 .. *Username*: `{user-sanitized-username}`
 .. *Password*: `openshift`
