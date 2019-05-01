@@ -139,8 +139,8 @@ A shared Integreatly OpenShift cluster is provisioned for use during the class. 
 ==== Credentials
 
 * Your OpenShift Host URL is `{openshift-host}`.
-* Your username is `{user-sanitized-username}@example.com`.
-* Your password is `Password1`.
+* Your username is `{user-sanitized-username}`.
+* Your password is `openshift`.
 
 === Create OpenShift Namespace 
 
