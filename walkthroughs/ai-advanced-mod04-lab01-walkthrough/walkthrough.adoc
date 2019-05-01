@@ -2,7 +2,7 @@
 :3scale-admin-url: https://{user-sanitized-username}-admin.{openshift-app-host}/p/login
 
 
-= Agile Integration Advanced LAB 10 - 3scale API Service Discovery
+= Agile Integration Advanced LAB 9 - 3scale API Service Discovery
 
 In this lab, you change the Red Hat Fuse Online integration API to make the service discoverable by 3scale API Management. You will then manage the API in 3scale API Management and ensure the requests are routed to the integration through the 3scale API Management Gateway.
 
@@ -22,8 +22,8 @@ In this lab, you change the Red Hat Fuse Online integration API to make the serv
 [type=walkthroughResource]
 .Useful Resources
 ****
-* link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/using_amq_online_on_openshift_container_platform/index[Red Hat AMQ Online, window="_blank"]
-* link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/evaluating_amq_online_on_openshift_container_platform/index[Red Hat AMQ Online Evaluating for Production, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management/2.4/html-single/service_discovery/index[Red Hat 3scale Service Discovery, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management/2.4/html/infrastructure/onpremises-operations#apicast_built_in_wildcard_routing[Red Hat 3scale API Wildcard Routing, window="_blank"]
 ****
 
 [time=10]
@@ -50,7 +50,7 @@ In this lab, you change the Red Hat Fuse Online integration API to make the serv
 Were you able to login to the 3scale Admin Console?
 
 
-[time=20]
+[time=30]
 == Develop the Solution
 
 Develop the solution by following the steps below.
@@ -123,7 +123,8 @@ https://api-{user-sanitized-username}-staging.amp.{openshift-app-host}
 ----
 https://api-{user-sanitized-username}-production.amp.{openshift-app-host}
 ----
-
++
+NOTE: As Wildcard routing is set up in this 3scale API Gateway, you do not need to create routes for API Staging and Production. Please follow the guide on the right to know more about this feature.
 
 . Add a new mapping rule:
 .. *verb*: PUT
@@ -169,7 +170,10 @@ image::images/3scale-new-api-audience-app-create-details.png[diagram, role="inte
 +
 image::images/3scale-new-api-audience-app-create-complete.png[diagram, role="integr8ly-img-responsive"]
 
-[time=30]
+[type=verification]
+Is the 3scale API Configuration for the i-apitosqlenrich complete?
+
+[time=20]
 == Test your Solution
 
 === Test 3scale Staging Endpoint

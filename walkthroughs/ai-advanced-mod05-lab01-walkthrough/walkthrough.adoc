@@ -1,4 +1,4 @@
-= Agile Integration Advanced LAB 9 - AMQ Online Setup Lab
+= Agile Integration Advanced LAB 10 - AMQ Online Setup Lab
 
 In this lab, you set up AMQ Online to be used as the messaging platform on OpenShift for the Fuse and Fuse Online labs.
 
@@ -102,7 +102,7 @@ The AMQ Online in this environment is set up to use your OpenShift credentials u
 
 . Open the project `03_rest-publish-and-fix-errors` in Red Hat Developer Studio.
 . Open the file `application.properties`.
-. Replace the `amqp.host`, `amp.port`, `amqp.username` and `amqp.password` with the above credentials.
+. Replace the `amqp.host`, `amqp.username` and `amqp.password` with the above credentials.
 . Redeploy the application to OpenShift by running `mvn fabric8:deploy` from the project root folder.
 . Send a test request and confirm that the messages are send correctly to the `InputQueue`, `AccountQueue` and `ErrorNotification` addresses successfully.
 
