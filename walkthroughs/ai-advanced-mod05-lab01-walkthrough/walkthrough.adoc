@@ -9,7 +9,7 @@ In this lab, you set up AMQ Online to be used as the messaging platform on OpenS
 
 ****
 
-[type=walkthroughResource,serviceName=enmasse]
+[type=walkthroughResource,serviceName=amq-online-standard]
 .AMQ Online
 ****
 * link:{enmasse-url}[AMQ Online Console, window="_blank"]
@@ -108,7 +108,7 @@ The AMQ Online in this environment is set up to use your OpenShift credentials u
 
 
 [type=verification]
-Is the FuseIntegration running successfully with AMQ Online endpoint?
+Is the Fuse Integration running successfully with AMQ Online endpoint?
 
 === Update Fuse Online
 
