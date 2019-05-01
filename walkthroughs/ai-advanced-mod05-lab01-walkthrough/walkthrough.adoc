@@ -12,7 +12,7 @@ In this lab, you set up AMQ Online to be used as the messaging platform on OpenS
 [type=walkthroughResource,serviceName=amq]
 .AMQ Online
 ****
-* link:{amq-url}[AMQ Online Console, window="_blank"]
+* link:{enmasse-url}[AMQ Online Console, window="_blank"]
 ****
 
 [type=walkthroughResource]
@@ -43,7 +43,7 @@ You can read more about AMQ Online setup and usecases by following the links on 
 
 === Login to AMQ Online
 
-. Click on the link:{amq-url}[AMQ Online Console, window="_blank"] to open the `AMQ Online Console`.
+. Click on the link:{enmasse-url}[AMQ Online Console, window="_blank"] to open the `AMQ Online Console`.
 . You should login with the following credentials:
 .. *Username*: `{user-sanitized-username}`
 .. *Password*: `openshift`
