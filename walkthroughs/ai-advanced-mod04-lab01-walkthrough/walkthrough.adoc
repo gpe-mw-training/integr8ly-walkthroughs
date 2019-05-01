@@ -1,3 +1,7 @@
+:walkthrough: Managing API Endpoints
+:3scale-admin-url: https://{user-sanitized-username}-admin.{openshift-app-host}/p/login
+
+
 = Agile Integration Advanced LAB 10 - 3scale API Service Discovery
 
 In this lab, you change the Red Hat Fuse Online integration API to make the service discoverable by 3scale API Management. You will then manage the API in 3scale API Management and ensure the requests are routed to the integration through the 3scale API Management Gateway.
@@ -10,9 +14,9 @@ In this lab, you change the Red Hat Fuse Online integration API to make the serv
 ****
 
 [type=walkthroughResource,serviceName=amq-online-standard]
-.AMQ Online
+.3scale Admin Console
 ****
-* link:{enmasse-url}[AMQ Online Console, window="_blank"]
+* link:{3scale-admin-url}[3scale Admin Console, window="_blank"]
 ****
 
 [type=walkthroughResource]
@@ -37,7 +41,7 @@ In this lab, you change the Red Hat Fuse Online integration API to make the serv
 
 === Login to 3scale Admin Console
 
-. Click on the link:{enmasse-url}[AMQ Online Console, window="_blank"] to open the `AMQ Online Console`.
+. Click on the link:{3scale-admin-url}[3scale Admin Console, window="_blank"] to open the `AMQ Online Console`.
 . You should login with the following credentials:
 .. *Username*: `{user-sanitized-username}`
 .. *Password*: `openshift`
