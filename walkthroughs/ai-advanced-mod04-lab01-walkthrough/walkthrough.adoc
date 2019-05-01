@@ -60,7 +60,7 @@ Develop the solution by following the steps below.
 
 The *i-apitosqlenrich* service created as part of the Red Hat Fuse Online lab needs to be edited to make the service discoverable by 3scale API Management. This ensures that 3scale API Management can automatically scan the services in the OpenShift cluster and ensure that the service is imported correctly.
 
-. Edit the service *i-apitosqlenrich* in the OpenShift project *user$seq-fuse*:
+. Edit the service *i-apitosqlenrich* in the OpenShift Fuse Online namespace:
 +
 ----
 oc edit svc i-apitosqlenrich
@@ -97,6 +97,7 @@ The rest of the configuration needs to be done in the 3scale API Management Plat
 +
 image::images/3scale-new-api-start.png[diagram, role="integr8ly-img-responsive"]
 
+. Login with your openshift credentials and authorize to enable the `Import from OpenShift` Service discovery on 3scale.
 . Select the button *Import from OpenShift*. Select your Red Hat Fuse Online namespace and corresponding *i-apitosqlenrich* service.
 +
 image::images/3scale-new-api-discover.png[diagram, role="integr8ly-img-responsive"]
@@ -109,7 +110,20 @@ image::images/3scale-new-api-discover.png[diagram, role="integr8ly-img-responsiv
 +
 image::images/3scale-new-api-integrate.png[diagram, role="integr8ly-img-responsive"]
 
-. Provide the *Staging Public Base URL* and *Production Public Base URL* corresponding to the OpenShift route to your *apicast-staging* and *apicast-production* applications.
+. Provide the *Staging Public Base URL* as follows:
++
+[subs="attributes"]
+----
+https://api-{user-sanitized-username}-staging.amp.{openshift-app-host}
+----
+
+. Provide the *Production Public Base URL* as follows:
++
+[subs="attributes"]
+----
+https://api-{user-sanitized-username}-production.amp.{openshift-app-host}
+----
+
 
 . Add a new mapping rule:
 .. *verb*: PUT
@@ -163,8 +177,9 @@ image::images/3scale-new-api-audience-app-create-complete.png[diagram, role="int
 
 . Use the following *curl* command to make a request to the 3scale API Management staging route:
 +
+[subs="attributes"]
 ----
-curl -k <user$seq staging route>/rest/account?user_key=<user$seq application key> -X PUT  -d '{"company":{"name":"Rotobots","geo":"NA","active":true},"contact":{"firstName":"Bill","lastName":"Smith","streetAddr":"100 N Park Ave.","city":"Phoenix","state":"AZ","zip":"85017","phone":"602-555-1100"}}' -H 'content-type: application/json'
+curl -k https://api-{user-sanitized-username}-staging.amp.{openshift-app-host}/rest/account?user_key=<application key> -X PUT  -d '{"company":{"name":"Rotobots","geo":"NA","active":true},"contact":{"firstName":"Bill","lastName":"Smith","streetAddr":"100 N Park Ave.","city":"Phoenix","state":"AZ","zip":"85017","phone":"602-555-1100"}}' -H 'content-type: application/json'
 
 ----
 
