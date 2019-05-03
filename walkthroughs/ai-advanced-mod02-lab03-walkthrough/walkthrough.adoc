@@ -208,6 +208,11 @@ mvn fabric8:deploy -Popenshift
 ----
 
 * Check if your project is deployed successfully.
+* Expose the service
++
+----
+oc expose svc rest-publish-and-fix-errors-lab
+----
 * Note the URL of the exposed service:
 +
 ----

@@ -285,7 +285,7 @@ mvn fabric8:deploy
 . Determine the URL of the Web Service by using the following command:
 +
 ----
-echo http://`oc get route soap-cxfws-service -o template --template {{.spec.host}}`/ws/customerService
+echo http://`oc get route soap-service -o template --template {{.spec.host}}`/ws/customerService
 ----
 
 . You can test the SOAP service by running the same SOAP UI request above, replacing the localhost URL with the remote URL. The response received should be the same as for localhost.
