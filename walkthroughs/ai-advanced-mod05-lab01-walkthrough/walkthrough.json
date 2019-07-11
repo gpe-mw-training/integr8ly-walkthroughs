@@ -1,6 +1,11 @@
 {
   "dependencies": {
     "repos": [],
-    "serviceInstances": []
+    "serviceInstances": 
+    [
+      {
+        "name": "amq-online-standard"
+      }
+    ]
   }
 }
