@@ -77,7 +77,7 @@ echo http://`oc get route rest-cxfrs-service -o template --template {{.spec.host
 
 . Provide the following details:
 .. *Connector Name*: Rest CXFRS Service
-.. *Host*: `http://cxfrs-rest-service.{user-sanitized-username}-fuse:8080`
+.. *Host*: `http://rest-cxfrs-service.{user-sanitized-username}-fuse:8080`
 .. *Base URL*: /rest
 +
 . Upload the SOAP API specification for the *Legacy SOAP REST Wrapper* API JSON from the lab asset location: *fuse/05_migrate_fuse6/legacy-soap-rest-wrapper/src/main/resources/swagger.json*
