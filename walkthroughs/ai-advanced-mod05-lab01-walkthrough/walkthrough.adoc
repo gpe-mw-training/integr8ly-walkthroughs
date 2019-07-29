@@ -25,7 +25,7 @@ In this lab, you set up AMQ Online to be used as the messaging platform on OpenS
 [time=10]
 == Introduction and Set up
 
-In this lab, you will set up AMQ Online for use in the Fuse On OpenShift and Fuse Online labs. This will replace the standalone AMQ Broker used in the labs. 
+In this lab, you will set up AMQ Online for use in the Fuse On OpenShift and Fuse Online labs. This will replace the standalone AMQ Broker used in the labs.
 
 ed Hat AMQ Online is an OpenShift-based mechanism for delivering messaging as a managed service. With Red Hat AMQ Online, administrators can configure a cloud-native, multi-tenant messaging service either in the cloud or on premise. Developers can provision messaging using the AMQ Online console. Multiple development teams can provision the brokers and queues from the console, without requiring each team to install, configure, deploy, maintain, or patch any software.
 
@@ -37,11 +37,22 @@ You can read more about AMQ Online setup and usecases by following the links on 
 
 * Login to AMQ Console
 * Create Queues and Topics
-* Configure login credentials for AMQP 
+* Configure login credentials for AMQP
 * Test the connection
 
 
 === Login to AMQ Online
+
+
+. On the Solution Explorer page, ensure that the *Red Hat AMQ Online* application has a *Ready for use* status.
++
+image::images/amq_online_ready.png[diagram, role="integr8ly-img-responsive"]
+
+. Otherwise, click on the *Start Service* link, to start the application.
++
+image::images/amq_online_start.png[diagram, role="integr8ly-img-responsive"]
+
+. Wait for the status to change from *Not ready* to *Ready for use*, before proceeding.
 
 . Click on the link:{enmasse-url}[AMQ Online Console, window="_blank"] to open the `AMQ Online Console`.
 . You should login with the following credentials:
@@ -65,6 +76,7 @@ Create the `addresses` on the AMQ Online console, and get information about acce
 . Choose type `Anycast`.
 +
 image::images/amq_online_create_accountqueue.png[diagram, role="integr8ly-img-responsive"]
+
 
 . Click on `Next`.
 . Select plan `Small Anycast`.
@@ -116,4 +128,3 @@ Now you can change the *AMQP Connection* in the Fuse Online Integration to use t
 
 [type=verification]
 Is the Fuse Online Integration running successfully with AMQ Online endpoint?
-
