@@ -1,6 +1,6 @@
 = Agile Integration Advanced LAB 1- Environment Set up Lab
 
-In this lab, you set up the environment for the labs in this course. 
+In this lab, you set up the environment for the labs in this course.
 
 [type=walkthroughResource,serviceName=openshift]
 .OpenShift
@@ -18,7 +18,7 @@ In this lab, you set up the environment for the labs in this course.
 [time=10]
 == Introduction
 
-In this lab, you set up the environment for the labs in this course. You will install required software in the local environment. On OpenShift, a shared namespace {user-sanitized-username}-fuse is created and common services like AMQ Broker and PostgreSQL are deployed in this namespace. This namespace is used across the Fuse and Fuse Online labs for developing the usecases.
+In this lab, you set up the environment for the labs in this course. You will install required software and download lab assets in the local environment. On OpenShift, a shared namespace {user-sanitized-username}-fuse is created and common services like AMQ Broker and PostgreSQL are deployed in this namespace. This namespace is used across the Fuse and Fuse Online labs for developing the usecases.
 
 === Goals
 
@@ -32,7 +32,7 @@ In this lab, you set up the environment for the labs in this course. You will in
 * A terminal client, such as PuTTy for Microsoft Windows
 * A current browser, such as Google Chrome or Mozilla Firefox
 * OPENTLC credentials
-* Enough disk space to install Red Hat Developer Studio, Red Hat Fuse, Red Hat AMQ and other programming tools (Maven, OpenShift CLI, Java).
+* Enough disk space to install Red Hat CodeReady Studio, Red Hat Fuse, Red Hat AMQ and other programming tools (Maven, OpenShift CLI, Java).
 +
 [IMPORTANT]
 Make sure that the Internet connection is free of corporate proxies or other network rules that prevent access to remote servers on the Internet.
@@ -40,7 +40,7 @@ Make sure that the Internet connection is free of corporate proxies or other net
 [time=60]
 == Install on Local Workstation
 
-In this course, you create Red Hat Fuse Standalone and Fuse on OpenShift applications, using Red Hat JBoss Developer Studio and OpenShift CLI tools on the desktop, and deploy them to an OpenShift project. Hence, the required software below needs to be installed on your local workstation.
+In this course, you create Red Hat Fuse Standalone and Fuse on OpenShift applications, using Red Hat JBoss CodeReady Studio and OpenShift CLI tools on the desktop, and deploy them to an OpenShift project. Hence, the required software below needs to be installed on your local workstation.
 
 === Required Developer Tools
 
@@ -58,54 +58,80 @@ Are all the required developer tools available in your local workstation?
 [type=verificationFail]
 Please follow the links on the right to download and install the required software tools before proceeding to next section.
 
-=== Red Hat Developer Studio
+=== Download Lab Assets to workstation
 
-. Using your browser, navigate to the product page for link:https://developers.redhat.com/products/devstudio/[Red Hat Developer Studio].
+This course comes with a variety of lab assets that are version-controlled in GitHub. In this section, you clone or update the lab assets on your workstation so that they are available locally for use in the course labs.
+
+. In a terminal shell, create a directory called `ai_advanced_labs` and change your working directory to it:
++
+[source,sh]
+----
+$ mkdir ai_advanced_labs
+$ cd ai_advanced_labs
+----
+
+. From this new directory, download the lab assets from GitHub and change your working directory to `agile_integration_advanced_labs/code`:
++
+[source,sh]
+----
+$ git clone https://github.com/gpe-mw-training/agile_integration_advanced_labs.git
+$ cd agile_integration_advanced_labs/code
+----
++
+[NOTE]
+This is the root folder for the lab assets. The absolute path to this folder is referred to as `$AI_EXERCISE_HOME` in the instructions.
+
+
+=== Install Red Hat CodeReady Studio
+
+. Using your browser, navigate to the product page for link:https://developers.redhat.com/products/codeready-studio/[Red Hat CodeReady Studio].
 
 . On the left side, click *Download*.
-* Note that the latest release of Red Hat Developer Studio is highlighted near the top of the page.
+* Note that the latest release of Red Hat CodeReady Studio is highlighted near the top of the page.
 
-. Click *Installer* to download the installer for version 12.9.0 of Red Hat Developer Studio:
+. Click *Installer* to download the installer for the latest version of Red Hat CodeReady Studio:
 +
 image::images/jbds_download_selection.png[diagram, role="integr8ly-img-responsive"]
 
 . Proceed to log in.
 * The download begins shortly after you log in.
 
-. Follow the onscreen instructions to install Red Hat Developer Studio, substituting the name of the JAR file with the one you downloaded:
+. Follow the onscreen instructions to install Red Hat CodeReady Studio, substituting the name of the JAR file with the one you downloaded:
 +
 image::images/dl_instructions.png[diagram, role="integr8ly-img-responsive"]
 
 
-Red Hat Developer Studio includes a variety of plug-ins for Eclipse. You use the following Red Hat Developer Studio plug-ins to complete the labs in the Red Hat OPEN middleware courses:
+Red Hat CodeReady Studio includes a variety of plug-ins for Eclipse. You use the following Red Hat CodeReady Studio plug-ins to complete the labs in the Red Hat OPEN middleware courses:
 
-* *Integration Stack*: The Integration Stack suite of plug-ins is particularly important when using Red Hat(R) Fuse and Red Hat(R) AMQ. The Integration Stack is not included with Red Hat Developer Studio and must be manually installed.
+* *Integration Stack*: The Integration Stack suite of plug-ins is particularly important when using Red Hat(R) Fuse and Red Hat(R) AMQ. The Integration Stack is not included with Red Hat CodeReady Studio and must be manually installed.
 
-* *EGit*: JBoss Developer Studio includes the Eclipse EGit plug-in, which provides Git project support. No additional installation is required. Git is an open source version control system, providing developers with fast, versatile access to their application code's entire revision history.
+* *EGit*: CodeReady Studio includes the Eclipse EGit plug-in, which provides Git project support. No additional installation is required. Git is an open source version control system, providing developers with fast, versatile access to their application code's entire revision history.
 
-* *M2E*: Red Hat Developer Studio includes the Eclipse M2E plug-in, which provides support for Apache Maven projects. No additional installation is required. The M2E plug-in enables you to edit a Maven project’s `pom.xml` and run a Maven build from the IDE.
+* *M2E*: Red Hat CodeReady Studio includes the Eclipse M2E plug-in, which provides support for Apache Maven projects. No additional installation is required. The M2E plug-in enables you to edit a Maven project’s `pom.xml` and run a Maven build from the IDE.
 
-You can select the plug-in installation during the Red Hat Developer Studio installation process, or you can select these from the welcome page.
+You can select the plug-in installation during the Red Hat CodeReady Studio installation process, or you can select these from the welcome page.
 
 [type=verification]
-Is the Red Hat Developer Studio installed successfully on your local workstation?
+Is Red Hat CodeReady Studio installed successfully on your local workstation?
 
 [type=verificationFail]
-Please follow the links on the right to download and install Red Hat Developer Studio before proceeding to next section.
+Please follow the links on the right to download and install Red Hat CodeReady Studio before proceeding to next section.
 
-=== Red Hat Fuse 7.2.0 (Optional)
+
+=== Install Red Hat Fuse 7.2.0 (Optional)
 
 If you want to deploy and run the labs locally, you will need to install Red Hat Fuse on your laptop. Please download the Red Hat Fuse install from link:https://developers.redhat.com/products/fuse/download/[Red Hat Fuse Download] and follow the installation steps.
 
-NOTE: Note that the skeleton code for the labs is provided as a Spring Boot application, so you can choose to test the labs locally using the spring-boot Maven plug-in, or from Red Hat Developer Studio. Optionally, you can install either standalone Red Hat Fuse Karaf or JBoss EAP depending on your preference, and deploy the labs to these standalone environments. As part of the labs, you will also be deploying the labs to an OpenShift Container Platform environment.
+NOTE: Note that the skeleton code for the labs is provided as a Spring Boot application, so you can choose to test the labs locally using the spring-boot Maven plug-in, or from Red Hat CodeReady Studio. Optionally, you can install either standalone Red Hat Fuse Karaf or JBoss EAP depending on your preference, and deploy the labs to these standalone environments. As part of the labs, you will also be deploying the labs to an OpenShift Container Platform environment.
+
 
 === Install Red Hat AMQ 7.2.0
 
-You need to run a Red Hat AMQ broker locally to execute some of the labs in this course. Please download the link:https://developers.redhat.com/products/amq/download/[Red Hat AMQ 7.2.0 Broker installer] and follow the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html/using_amq_broker/installation[instructions] to install it on your laptop. 
+You need to run a Red Hat AMQ broker locally to execute some of the labs in this course. Please download the link:https://developers.redhat.com/products/amq/download/[Red Hat AMQ 7.2.0 Broker installer] and follow the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html/using_amq_broker/installation[instructions] to install it on your laptop.
 
 Once installed, please follow the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html/using_amq_broker/getting_started[Getting Started] steps to start a new broker running locally on your laptop.
 
-IMPORTANT: Provide the user ID and password for the broker as `admin` and `password`. 
+IMPORTANT: Provide the user ID and password for the broker as `admin` and `password`.
 
 [type=verification]
 Is Red Hat AMQ 7.2.0 installed successfully on your local workstation?
@@ -123,7 +149,7 @@ Please follow the links on the right to download and install Red Hat AMQ 7.2.0 b
 * link:https://git-scm.com/downloads[Git(latest version), window="_blank"]
 * link:https://access.redhat.com/downloads/content/290/ver=3.9/rhel---7/3.9.25/x86_64/product-software[OpenShift CLI client(version 3.11), window="_blank"]
 * link:https://www.soapui.org/downloads/soapui.html[SoapUI(latest version), window="_blank"]
-* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat Developer Studio Product Documentation, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat CodeReady Studio Product Documentation, window="_blank"]
 * link:https://developers.redhat.com/products/fuse/download/[Red Hat Fuse Download, window="_blank"]
 * link:https://developers.redhat.com/products/amq/download/[Red Hat AMQ 7.2.0 Broker installer, window="_blank"]
 * link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html/using_amq_broker/installation[Red Hat AMQ 7.2.0 Installation instructions, window="_blank"]
@@ -142,7 +168,7 @@ A shared Integreatly OpenShift cluster is provisioned for use during the class. 
 * Your username is `{user-sanitized-username}`.
 * Your password is `openshift`.
 
-=== Create OpenShift Namespace 
+=== Create OpenShift Namespace
 
 . Login to the link:{openshift-host}[OpenShift Master, window="_blank"] using the credentials above.
 . Copy the login command from the browser and use it to login from a terminal.
@@ -202,7 +228,7 @@ oc new-app --namespace {user-sanitized-username}-fuse \
 [subs="attributes]
 ----
 echo http://`oc get route console -o template --template {{.spec.host}}`
----- 
+----
 
 . Navigate to the console URL in a browser.
 . Login to console using credentials `admin` and `password`.
@@ -277,7 +303,7 @@ PGPASSWORD=$POSTGRESQL_PASSWORD psql -h postgresql $POSTGRESQL_DATABASE $POSTGRE
 psql (9.6.10)
 Type "help" for help.
 
-sampledb=# 
+sampledb=#
 
 ----
 
@@ -329,4 +355,3 @@ Please follow the links on the right to follow the installation steps for Postgr
 * link:https://docs.openshift.com/container-platform/3.10/using_images/db_images/postgresql.html[PostgreSQL on OpenShift guide, window="_blank"]
 
 ****
-

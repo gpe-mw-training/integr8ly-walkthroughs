@@ -25,21 +25,21 @@ SOAP-based services are plentiful in many enterprise solutions and are slowly be
 
 * Create REST API for the Customer SOAP service from previous lab.
 * Design Apache Camel route that exposes REST API consuming JSON.
-* Use the Red Hat Fuse Tooling in Red Hat Developer Studio to create *wsdl2rest* mapping.
+* Use the Red Hat Fuse Tooling in Red Hat CodeReady Studio to create *wsdl2rest* mapping.
 * Deploy and test the solution.
 
 
-=== Import the Project into Red Hat Developer Studio
+=== Import the Project into Red Hat CodeReady Studio
 
 
-. Open *Red Hat Developer Studio*.
+. Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
 .. Select *Maven -> Existing Maven Projects* and click *Next*.
 .. Click *Browse*, navigate to the directory containing the `05_migrate_fuse6`  project, and click *Open*.
 .. In *Project* `legacy-soap-rest-wrapper`, make sure the */pom.xml* box is checked 
 .. Click *Finish*.
 
-. The imported projects now appears in Red Hat Developer Studio.
+. The imported projects now appears in Red Hat CodeReady Studio.
 
 [type=verification]
 Did the projects get imported correctly to your workspace?
@@ -48,9 +48,9 @@ Did the projects get imported correctly to your workspace?
 Ensure the project pom is selected and there are no build errors on import.
 
 [type=taskResource]
-.Red Hat Developer Studio
+.Red Hat CodeReady Studio
 ****
-* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat Developer Studio Product Documentation, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat CodeReady Studio Product Documentation, window="_blank"]
 ****
 
 

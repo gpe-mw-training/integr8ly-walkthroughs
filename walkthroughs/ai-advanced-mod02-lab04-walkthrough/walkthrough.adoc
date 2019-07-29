@@ -34,10 +34,10 @@ In this lab, you develop routes that process the account records in JSON format,
 
 image::images/Fuse_Exp_Usecase_Mod2.png[diagram, role="integr8ly-img-responsive"]
 
-=== Import the Project into Red Hat Developer Studio
+=== Import the Project into Red Hat CodeReady Studio
 
 
-. Open *Red Hat Developer Studio*.
+. Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
 .. Select *Maven -> Existing Maven Projects* and click *Next*.
 .. Click *Browse*, navigate to the directory containing the `04_enrich-content-REST-and-WS-microservices`  project, and click *Open*.
@@ -47,7 +47,7 @@ image::images/Fuse_Exp_Usecase_Mod2.png[diagram, role="integr8ly-img-responsive"
 ... `amq-enrich-persist-lab`
 .. Click *Finish*.
 
-. The imported projects now appears in Red Hat Developer Studio.
+. The imported projects now appears in Red Hat CodeReady Studio.
 
 [type=verification]
 Did the projects get imported correctly to your workspace?
@@ -56,9 +56,9 @@ Did the projects get imported correctly to your workspace?
 Ensure the project pom is selected and there are no build errors on import.
 
 [type=taskResource]
-.Red Hat Developer Studio
+.Red Hat CodeReady Studio
 ****
-* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat Developer Studio Product Documentation, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat CodeReady Studio Product Documentation, window="_blank"]
 ****
 
 

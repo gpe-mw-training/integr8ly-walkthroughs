@@ -25,7 +25,7 @@ In this lab, you develop an integration in Red Hat Fuse Online that exposes a RE
 [time=10]
 == Introduction and Set up
 
-In this lab, you will extend the integration created in the previous lab in Red Hat Fuse Online, to expose it as a REST API. 
+In this lab, you will extend the integration created in the previous lab in Red Hat Fuse Online, to expose it as a REST API.
 
 === Goals
 
@@ -65,7 +65,7 @@ NOTE: This step is created in Lab 7. If you have completed it, please skip this 
 
 A custom extension is required to manage the headers for the request to backend APIs. Hence, add the following extension: link:https://github.com/syndesisio/syndesis-extensions/tree/master/syndesis-extension-manage-headers[https://github.com/syndesisio/syndesis-extensions/tree/master/syndesis-extension-manage-headers].
 
-The extension is available in the lab assets location in path `/code/fuse_online/extensions/syndesis-extension-manage-headers-1.0.0.jar`.
+The extension is available in the lab assets location in path `$AI_EXERCISE_HOME/fuse_online/extensions/syndesis-extension-manage-headers-1.0.0.jar`.
 
 
 === API Client Connectors
@@ -191,7 +191,7 @@ Develop the Integration as per the usecase diagram. Use the following steps:
 .. *Response Example*: Copy the data below:
 +
 ----
-{"result": "Account created successfully."}	
+{"result": "Account created successfully."}
 
 ----
 
@@ -274,12 +274,12 @@ sampledb=# select * from t_account;
 ----
  id | client_id | sales_contact | company_name |     company_geo      | company_active | contact_firs
 t_name | contact_last_name | contact_address | contact_city | contact_state | contact_zip | contact_e
-mail | contact_phone |       creation_date        | creation_user 
+mail | contact_phone |       creation_date        | creation_user
 ----+-----------+---------------+--------------+----------------------+----------------+-------------
 -------+-------------------+-----------------+--------------+---------------+-------------+----------
 -----+---------------+----------------------------+---------------
-  1 |        91 | Kirk Hammett  | Rotobots     | NORTH_AMERICA        | t              | Bill        
-       | Smith             | 100 N Park Ave. | Phoenix      | AZ            | 85017       |          
+  1 |        91 | Kirk Hammett  | Rotobots     | NORTH_AMERICA        | t              | Bill
+       | Smith             | 100 N Park Ave. | Phoenix      | AZ            | 85017       |
      | 602-555-1100  | 2019-01-07 14:53:55.059279 | fuse-online
 (1 row)
 
@@ -288,6 +288,5 @@ mail | contact_phone |       creation_date        | creation_user
 . You should see a response as below for the REST API:
 +
 ----
-{"result": "Account created successfully."}	
+{"result": "Account created successfully."}
 ----
-

@@ -1,0 +1,391 @@
+= Agile Integration Advanced Lab 11 - Camel-K Lab
+
+In this lab, you set up Apache Camel-K, to be used as the serverless Camel Development environment on OpenShift Container Platform.
+
+
+[type=walkthroughResource,serviceName=openshift]
+.OpenShift
+****
+* link:{openshift-host}[Openshift Console, window="_blank"]
+
+****
+
+[type=walkthroughResource]
+.Useful Resources
+****
+* link:https://camel.apache.org/staging/camel-k/latest/index.html[Apache Camel K, window="_blank"]
+* link:https://knative.dev/docs[Knative Documentation, window="_blank"]
+****
+
+[time=10]
+== Introduction and Set up
+
+In this lab, you set up Apache Camel-K (aka Kamel), to be used as the serverless Camel Development environment on OpenShift Container Platform.
+Camel K utilizes *Knative*, an application development framework on a Kubernetes-based platform - for building, deploying, and managing modern serverless workloads.
+You will use an existing operator known as a *Maistra Operator* to install *Knative*. This operator is also known as the "OpenShift Service Mesh" Operator.
+
+To learn more about what an operator is, refer to the link:https://github.com/operator-framework/getting-started[Operator Framework Getting Started Guide].
+
+=== Goals
+
+* Utilize Camel-K to install a Camel Route on an Red Hat OpenShift cluster
+* Test Camel Route on an Red Hat OpenShift cluster
+
+
+=== Login to OpenShift Container Platform
+
+. Click on the link:{openshift-host}[OpenShift Console, window="_blank"] to open the `OpenShift Console`.
+. You should login with the following credentials:
+.. *Username*: `{user-sanitized-username}`
+.. *Password*: `openshift`
+
+[type=verification]
+Were you able to login to the OpenShift Console?
+
+
+[time=30]
+== Install Camel-K
+
+In this exercise, you install Camel-K and begin utilizing it.
+This section of the lab requires the use of the OpenShift Container Platform cluster administrator account. If you do not have such an administrator account, engage the assistance of the instructor to perform the Camel-k operator installation.
+
+. Download the latest *Camel-K* binary link:https://github.com/apache/camel-k/releases[release]
+. Update the PATH environment variable with the path to the *Camel-K* binary.
+. Execute the following command to install *Camel K*:
++
+[source,sh]
+----
+kamel install
+----
++
+[NOTE]
+This will install the Camel-K operator on the current namespace of your OpenShift Container Platform cluster. In addition, configure the OpenShift Container Platform cluster with the *Camel-K* custom resource definitions.
+
+* *Custom Resource Definitions (CRD)* are objects with Kubernetes-cluster scope, installing them requires administrative privileges and the installation process is done once per cluster.
+* In the event of an installation failure, repeat the process. Sometimes with fluctuations in OCP cluster usage load, an operator installation process can take longer than usual and thus timeout.
+
+[type=verification]
+Is the Camel-K operator installed successfully?
+
+
+[time=30]
+== Configuring a Camel-K Integration
+
+Every Camel-K integration have associated configuration properties, which are modified either using a Kubernetes ConfigMap or a Kubernetes Secret.
+Another option is providing a "--property" flag when executing the *kamel* binary.
+
+=== Compile Project
+
+. Open a command-line shell.
++
+NOTE: For the purposes of these instructions, the local directory for the lab assets is referred to as `$AI_EXERCISE_HOME/camelk/`.
+
+. Execute these commands:
++
+[source,sh]
+----
+cd $AI_EXERCISE_HOME/camelk
+kamel run --property my.message=test props.js
+----
++
+. Using your favorite text editor, edit the properties file `props.js` that is associated with the Integration.
+. Change the property to the value `DEBUG`:
++
+[source,sh]
+----
+logging.level.org.apache.camel = DEBUG
+----
++
+[NOTE]
+The *camel-k* runtime adopts *log4j2* as the preferred logging framework. By configuration the Integration properties file `props,js` log levels and types of loggers can be changed.
++
+. Change the following property to the value `25`
++
+[source,sh]
+----
+camel.component.seda.queueSize = 25
+----
++
+. This changes the queue size of the SEDA component in the Integration. *QUESTION:* What are your observations when you experiment with various values of this property?
++
+Any *camel-k* EIP component can be configured:
++
+* either programmatically within the code of the Integration or
+* using properties with the following syntax:
++
+[source,sh]
+----
+camel.component.${scheme}.${property} = ${value}
+----
+
+=== Executing a Camel-K Integration
+
+You now activate, in runtime, a Camel-K integration on the OpenShift cluster environment.
+A "Sample.java" application containing a Camel-K integration will be used in this section of the lab.
+
+. Execute these commands:
++
+[source,sh]
+----
+cd $AI_EXERCISE_HOME/camelk
+vi Sample.java
+----
++
+. Examine the source code of the program.
+. Execute the command:
++
+[source,sh]
+----
+cd $AI_EXERCISE_HOME/camelk
+kamel run Sample.java
+----
++
+. Examine the results of your execution, in the terminal window.
+
+[type=verification]
+What are the runtime messages that you observe? Do they correlate with the structure of the Camel route defined within the application source?
+
+[type=verification]
+Does the result validate that Apache Camel K and Knative are installed (complete with Knative Build, Eventing and Serving) in your OpenShift cluster? What other tests can you perform to validate this?
+
+
+[time=45]
+== Setup a Java application that utilizes multiple Camel-K integrations
+
+You will setup a Camel application that utilizes the Camel K operator on OpenShift.
+The application is built using *Knative* - the essential application development framework for serverless computing.
+
+Two channels, *messages* and *words* have to be created, using the in-memory channel provisioner.
+The *messages* channel will contain phrases, while the *words* channel will contain the individual words found in each phrase.
+
+. Create the *messages* channel:
++
+[source,sh]
+----
+oc create -f $AI_EXERCISE_HOME/camelk/messages-channel.yaml
+----
+
+. Create the *words* channel:
++
+[source,sh]
+----
+oc create -f $AI_EXERCISE_HOME/camelk/words-channel.yaml
+----
+
+
+=== Build and Deploy a "Printer" Integration
+
+You will build and deploy a Camel-K integration that will print all words from the *words* channel. Under the hood, the Camel-K operator activates a typical Camel-K integration passively, ie: using an external HTTP call (the Knative consumer endpoint).
+
+That integration manifests into a Knative autoscaling service, that can be integrated in a link:http://istio.io[Istio] service mesh.
+Finally, the Camel-K operator adds a Knative Eventing Subscription that references the Knative autoscaling service.
+
+. Examine the file `$AI_EXERCISE_HOME/camelk/printer.groovy` using your favorite editor.
+
+. Analyze the following Camel route defined within:
++
+[source,java]
+-----
+from('knative:channel/words')
+  .convertBodyTo(String.class)
+  .to('log:info')
+-----
++
+[NOTE] The route writes the contents of the Knative *words* channel to the standard info log stream.
++
+. In a command line window, execute the integration:
++
+[source,sh]
+----
+kamel run printer.groovy
+----
++
+. In a command line window, execute the integration:
++
+[source,sh]
+----
+kamel run printer.groovy
+----
++
+. List the Kubernetes pods in your OpenShift project <project_name>:
++
+[source,sh]
+----
+oc get po -n <project_name>
+----
++
+. Observe the listings of the pods similar to this:
++
+[source,sh]
+----
+NAME                                           READY   STATUS      RESTARTS   AGE
+pod/camel-k-ctx-bjvmobgb7h7um3nbnlmg-1-build   1/1     Running     0          27s
+pod/camel-k-groovy-1-build                     0/1     Completed   0          23h
+pod/camel-k-jvm-1-build                        0/1     Completed   0          23h
+pod/camel-k-kotlin-1-build                     0/1     Completed   0          23h
+pod/camel-k-operator-cdfcfc8c6-m6rhw           1/1     Running     0          23h
+----
++
+[NOTE] From the example shown, the pod `camel-k-operator-cdfcfc8c6-m6rhw` contains the Camel K operator, while the pods with the `Completed` status were responsible for building the operator when they were active. Finally, the pod `camel-k-ctx-bjvmobgb7h7um3nbnlmg-1-build` is building the new integration `printer`. Also, the resulting `printer` integration will be scaled to 0 when not used, usually after 5 minutes of inactivity.
+
+[type=verification]
+What results do you observe, when you access the logs of both the `printer` build pod and the `printer` pod?
+
+
+=== Build and Deploy a "Splitter" integration
+
+You will build and deploy a `splitter`, based on the Splitter EIP in the Apache Camel framework. The `splitter` will consume all messages from the *messages* channel, perform a split operation on the messages, before finally inserting all the individual words (ie: tokens) into the *words* channel. This `splitter` integration will run as a Knative autoscaling service and waits for a push notification before activating.
+
+. Examine the file `$AI_EXERCISE_HOME/camelk/splitter.groovy` using your favorite editor.
+
+. Analyze the following Camel route defined within:
++
+[source,java]
+-----
+from('knative:channel/messages')
+  .split().tokenize(" ")
+  .log('sending ${body} to words channel')
+  .to('knative:channel/words')
+-----
++
+[NOTE] The route writes the contents of the *messages* channel to the Knative *words* channel, after tokenization of the messages is complete.
++
+. In a command line window, execute the integration:
++
+[source,sh]
+----
+kamel run splitter.groovy
+----
++
+. Generate a listings of the pods in your current project:
++
+[source,sh]
+----
+oc get po -n <project_name>
+----
+
+[type=verification]
+What results do you observe, when you access the logs of both the `splitter` build pod and the `splitter` pod?
+
+
+=== Install a "Feed"
+
+You will setup a *timed feed* which will feed messages to this chain of integrations.
+
+. Examine the file `$AI_EXERCISE_HOME/camelk/feed.groovy` using your favorite editor.
+
+. Analyze the following Camel route defined within:
++
+[source,java]
+-----
+from('timer:clock?period=3s')
+  .setBody().constant("Hello World from Camel K")
+  .to('knative:channel/messages')
+  .log('sent message to messages channel')
+-----
++
+[NOTE] The route writes the string `Hello World from Camel K` to the Knative *messages* channel every 3 seconds.
++
+. In a command line window, execute the integration:
++
+[source,sh]
+----
+kamel run feed.groovy
+----
++
+. Generate a listings of the pods in your current project:
++
+[source,sh]
+----
+oc get po -n <project_name>
+----
++
+*QUESTION:* What results do you observe, when you access the logs of both the `feed` build pod and the `feed` pod?
++
+[NOTE]
+The `feed` pod is not an autoscaling service. However, the operator manages its lifecycle with a mapped OpenShift deployment.
++
+. Perform the necessary log access, to validate that the `printer` pod generates individual words, which stem from the message feed in 3 second intervals.
+. Stop the `feed` integration:
++
+[source,sh]
+----
+kamel delete feed
+----
++
+. Observe that the other Integration services `splitter` and `printer` scale down to 0 within minutes.
+. Reinstall the `feed` Integration:
++
+[source,sh]
+----
+kamel run feed.groovy
+----
++
+. Observe that the other Integration services `splitter` and `printer` scales up again, upon receiving messages.
+
+[type=verification]
+Do both Integration services retain their original function after scaling up?
+
+
+ifdef::showscript[]
+
+****
++
+image::images/kamel.png[diagram, role="integr8ly-img-responsive"]
+
+== *OPTIONAL EXERCISES*
+
+You will implement 2 complex message feeds. The first feed involves inbound messages sent from link:https://web.telegram.org/[Telegram] (a mobile messaging app service) as the new message source. The next feed involves inbound messages sent from link:https://slack.com/[Slack] (a collaboration app service) as the new message source.
+
+=== Install a Telegram "Feed"
+
+. Create this Camel route within a file named `telegram.groovy`
++
+[source,java]
+-----
+from('telegram:bots/<botfather-authorization>')
+  .convertBodyTo(String.class)
+  .to('log:info')
+  .to('knative:channel/messages')
+-----
++
+[NOTE] In the code snippet, replace `<botfather-authorization>` with the Authorization URL for your Telegram Bot. Refer to the link:https://core.telegram.org/bots[Telegram Bot documentation] for more details.
++
+. Build and deploy the `telegram` Integration:
++
+[source,sh]
+----
+kamel run telegram.groovy
+----
++
+. Once your `telegram` pod is active, send messages using your Telegram mobile app.
+. Observe, in the `printer` pod log, all individual words that appear.
+
+=== Install a Slack "Feed"
+
+. Replace the contents of the file named `printer.groovy`
++
+[source,java]
+-----
+from('knative:channel/words')
+  .log('Received: ${body}')
+  .to('slack:#camel-k-tests')
+
+context {
+  components {
+    slack {
+      webhookUrl '<inbound-webhook-url>'
+    }
+  }
+}
+-----
++
+[NOTE] In the code snippet, replace `<inbound-webhook-url>` with the URL for the webhook defined for your inbound Slack messages. Refer to the link:https://get.slack.help/[Slack documentation] for more details.
++
+. Redeploy the `printer` Integration.
+. Observe that individual words still appear log in the `printer` pod.
+. Observe that individual words are also forwarded to the Slack channel named *#camel-k-tests*.
+
+*Congratulations, you have have completed the Apache Camel-K lab!*
+
+endif::[]

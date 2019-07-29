@@ -27,7 +27,7 @@ In this lab, you set up AMQ Online to be used as the messaging platform on OpenS
 
 In this lab, you will set up AMQ Online for use in the Fuse On OpenShift and Fuse Online labs. This will replace the standalone AMQ Broker used in the labs.
 
-ed Hat AMQ Online is an OpenShift-based mechanism for delivering messaging as a managed service. With Red Hat AMQ Online, administrators can configure a cloud-native, multi-tenant messaging service either in the cloud or on premise. Developers can provision messaging using the AMQ Online console. Multiple development teams can provision the brokers and queues from the console, without requiring each team to install, configure, deploy, maintain, or patch any software.
+Red Hat AMQ Online is an OpenShift-based mechanism for delivering messaging as a managed service. With Red Hat AMQ Online, administrators can configure a cloud-native, multi-tenant messaging service either in the cloud or on premise. Developers can provision messaging using the AMQ Online console. Multiple development teams can provision the brokers and queues from the console, without requiring each team to install, configure, deploy, maintain, or patch any software.
 
 For the current environment, your administrator has installed a single AMQ Online broker in the namespace `enmasse`. Each user will be a `tenant` in this installation, and will get provisioned a unique address space (with separate URL and credentials).
 
@@ -112,7 +112,7 @@ The AMQ Online in this environment is set up to use your OpenShift credentials u
 
 === Update Fuse Project
 
-. Open the project `03_rest-publish-and-fix-errors` in Red Hat Developer Studio.
+. Open the project `03_rest-publish-and-fix-errors` in Red Hat CodeReady Studio.
 . Open the file `application.properties`.
 . Replace the `amqp.host`, `amqp.username` and `amqp.password` with the above credentials.
 . Redeploy the application to OpenShift by running `mvn fabric8:deploy` from the project root folder.

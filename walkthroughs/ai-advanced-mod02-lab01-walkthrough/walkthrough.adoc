@@ -33,16 +33,16 @@ In this lab, you develop Camel routes that process CSV files, split them into in
 
 image::images/Fuse_Exp_Usecase_Mod1_File.png[diagram, role="integr8ly-img-responsive"]
 
-=== Import the Project into Red Hat Developer Studio
+=== Import the Project into Red Hat CodeReady Studio
 
-. Open *Red Hat Developer Studio*.
+. Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
 .. Select *Maven -> Existing Maven Projects* and click *Next*.
 .. Click *Browse*, navigate to the directory containing the *file-split-and-transform* project, and click *Open*.
 .. In *Projects*, make sure the */pom.xml* box is checked for `com.redhat.gpte.training:>file-split-transform-lab:1.0.0:pom`:
 .. Click *Finish*.
 
-. The imported use case now appears in Red Hat Developer Studio.
+. The imported use case now appears in Red Hat CodeReady Studio.
 
 [type=verification]
 Did the project get imported correctly to your workspace?
@@ -51,9 +51,9 @@ Did the project get imported correctly to your workspace?
 Ensure the project pom is selected and there are no build errors on import.
 
 [type=taskResource]
-.Red Hat Developer Studio
+.Red Hat CodeReady Studio
 ****
-* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat Developer Studio Product Documentation, window="_blank"]
+* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat CodeReady Studio Product Documentation, window="_blank"]
 ****
 
 

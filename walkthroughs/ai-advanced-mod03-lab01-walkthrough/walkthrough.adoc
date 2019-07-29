@@ -62,7 +62,7 @@ Develop the solution by creating a new `Integration` in the Red Hat Fuse Online 
 
 A custom extension is required to manage the headers for the request to backend APIs. Hence, add the following extension: link:https://github.com/syndesisio/syndesis-extensions/tree/master/syndesis-extension-manage-headers[https://github.com/syndesisio/syndesis-extensions/tree/master/syndesis-extension-manage-headers].
 
-The extension is available in the lab assets location in path `/code/fuse_online/extensions/syndesis-extension-manage-headers-1.0.0.jar`.
+The extension is available in the lab assets location in path `$AI_EXERCISE_HOME/fuse_online/extensions/syndesis-extension-manage-headers-1.0.0.jar`.
 
 
 === API Client Connectors
@@ -223,7 +223,7 @@ NOTE: The *Transfer-Encoding* header is added by Camel during the call to REST s
 
 Finally, the integration should look as follows:
 
-image::images/enrich_insert_integration.png[diagram, role="integr8ly-img-responsive"] 
+image::images/enrich_insert_integration.png[diagram, role="integr8ly-img-responsive"]
 
 [type=verification]
 Is the Integration completed successfully?
@@ -283,14 +283,13 @@ sampledb=# select * from t_account;
 ----
  id | client_id | sales_contact | company_name |     company_geo      | company_active | contact_firs
 t_name | contact_last_name | contact_address | contact_city | contact_state | contact_zip | contact_e
-mail | contact_phone |       creation_date        | creation_user 
+mail | contact_phone |       creation_date        | creation_user
 ----+-----------+---------------+--------------+----------------------+----------------+-------------
 -------+-------------------+-----------------+--------------+---------------+-------------+----------
 -----+---------------+----------------------------+---------------
-  1 |        91 | Kirk Hammett  | Rotobots     | NORTH_AMERICA        | t              | Bill        
-       | Smith             | 100 N Park Ave. | Phoenix      | AZ            | 85017       |          
+  1 |        91 | Kirk Hammett  | Rotobots     | NORTH_AMERICA        | t              | Bill
+       | Smith             | 100 N Park Ave. | Phoenix      | AZ            | 85017       |
      | 602-555-1100  | 2019-01-07 14:53:55.059279 | fuse-online
 (1 row)
 
 ----
-
