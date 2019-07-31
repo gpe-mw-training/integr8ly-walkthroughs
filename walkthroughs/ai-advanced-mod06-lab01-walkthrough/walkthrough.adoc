@@ -42,30 +42,57 @@ To learn more about what an operator is, refer to the link:https://github.com/op
 [type=verification]
 Were you able to login to the OpenShift Console?
 
+. Perform a command-line login using .
+. You should login with the following credentials:
+.. *Username*: `{user-sanitized-username}`
+.. *Password*: `openshift`
+
+. On your desktop, open a terminal shell using, for example, PuTTY for Windows.
+
+. Authenticate with the OpenShift master API for the Integreatly cluster, replacing the value after the `-u` parameter with your assigned User ID and the <GUID> variable in the master API URL with the one assigned to your Integreatly environment.
++
+[source,sh]
+------
+$ oc login -u userXY --server=https://master.demo-<GUID>.openshiftworkshop.com:443
+------
++
+.Sample Output
+[source,texinfo]
+------
+Authentication required for https://master.demo-e61f.openshiftworkshop.com:443 (openshift)
+Password:
+Login successful.
+
+You have one project on this server: "userXY"
+
+Using project "userXY".
+------
+
+[type=verification]
+Were you able to login to the OpenShift Container Platform cluster via command line?
+
 
 [time=30]
-== Install Camel-K
+== Interact with Apache Camel-K on OpenShift
 
-In this exercise, you install Camel-K and begin utilizing it.
-This section of the lab requires the use of the OpenShift Container Platform cluster administrator account. If you do not have such an administrator account, engage the assistance of the instructor to perform the Camel-k operator installation.
+In this exercise, you begin utilizing Apacje Camel-K installed on OpenShift Container Platform cluster.
 
-. Download the latest *Camel-K* binary link:https://github.com/apache/camel-k/releases[release]
-. Update the PATH environment variable with the path to the *Camel-K* binary.
-. Execute the following command to install *Camel K*:
+. Download the latest *Camel-K* client binary link:https://github.com/apache/camel-k/releases[release] on your workstation.
+. Update the PATH environment variable with the path to the *Camel-K* client.
+. Execute the following command to validate that *Camel-K* client can be utilized on your workstation:
 +
 [source,sh]
 ----
-kamel install
+kamel version
 ----
++
+. Expect to receive the version of the client on your console.
 +
 [NOTE]
 This will install the Camel-K operator on the current namespace of your OpenShift Container Platform cluster. In addition, configure the OpenShift Container Platform cluster with the *Camel-K* custom resource definitions.
 
-* *Custom Resource Definitions (CRD)* are objects with Kubernetes-cluster scope, installing them requires administrative privileges and the installation process is done once per cluster.
-* In the event of an installation failure, repeat the process. Sometimes with fluctuations in OCP cluster usage load, an operator installation process can take longer than usual and thus timeout.
-
 [type=verification]
-Is the Camel-K operator installed successfully?
+Is the *Camel-K* client installed and usable?
 
 
 [time=30]
