@@ -210,19 +210,28 @@ echo '{"kind": "ServiceAccount", "apiVersion": "v1", "metadata": {"name": "amq-s
 oc policy add-role-to-user view system:serviceaccount:{user-sanitized-username}-fuse:amq-service-account
 ----
 
-. Deploy the broker:
+. List the OpenShift templates for the AMQ Broker that are available to your user account, using this command:
 +
 [subs="attributes"]
 ----
-oc new-app --namespace {user-sanitized-username}-fuse \
-   --template=amq-broker-72-basic \
+oc get templates | grep amq-broker
+----
++
+. Using the latest AMQ Broker template, deploy the broker:
++
+[subs="attributes"]
+----
+oc new-app \
+   --template=amq-broker-75-basic \
    -e AMQ_PROTOCOL=openwire,amqp,stomp,mqtt,hornetq \
    -e AMQ_USER=admin \
    -e AMQ_PASSWORD=password \
    -e AMQ_ROLE=admin
 ----
++
+* This command assumes that the latest template is `amq-broker-75-basic`.
 
-. Check that the broker pod is running.
+. Check that the broker pod is running and that no major errors have occurred in the event log.
 . Make a note of the console URL by running the following command:
 +
 [subs="attributes]
@@ -258,7 +267,7 @@ oc project {user-sanitized-username}-fuse
 +
 [subs="attributes"]
 ----
-oc new-app --namespace {user-sanitized-username}-fuse \
+oc new-app \
     -e POSTGRESQL_USER=postgres \
     -e POSTGRESQL_PASSWORD=postgres \
     -e POSTGRESQL_DATABASE=sampledb \
