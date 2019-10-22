@@ -179,6 +179,9 @@ Is the camel route starting correctly and running without errors?
 
 === Verify URLs
 
+* Your OpenShift Host URL is `{openshift-host}`.
+* Your username is `{user-sanitized-username}`.
+
 . Click on link:{openshift-host}[Openshift Console, window="_blank"]
 . Click on link:{openshift-app-host}[Openshift App Host, window="_blank"]
 . Click on link:{che-url}[CodeReady Workspace, window="_blank"]
@@ -194,5 +197,3 @@ Is the camel route starting correctly and running without errors?
 
 [type=verification]
 Are all the URLs displayed correctly?
-
-
