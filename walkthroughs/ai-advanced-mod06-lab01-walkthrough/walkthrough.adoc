@@ -1,6 +1,8 @@
-= Agile Integration Advanced Lab 11 - Camel-K Lab
+= Agile Integration Advanced Lab 11 - Camel K Lab
 
-In this lab, you set up Apache Camel-K, to be used as the serverless Camel Development environment on OpenShift Container Platform.
+In this lab, you set up Apache Camel K, to be used as the serverless Camel Development environment on Red Hat OpenShift Container Platform.
+Camel K is an alternative runtime to Red Hat Fuse On OpenShift, where Apache Camel routes can now be built and deployed to Red Hat OpenShift Container Platform, using Kubernetes as the application runtime.
+You will test various implementations of Camel routes, in Groovy, Javascript and Java format.
 
 
 [type=walkthroughResource,serviceName=openshift]
@@ -13,24 +15,26 @@ In this lab, you set up Apache Camel-K, to be used as the serverless Camel Devel
 [type=walkthroughResource]
 .Useful Resources
 ****
-* link:https://camel.apache.org/staging/camel-k/latest/index.html[Apache Camel K, window="_blank"]
+* link:https://camel.apache.org/camel-k/latest/index.html[Apache Camel K, window="_blank"]
 * link:https://knative.dev/docs[Knative Documentation, window="_blank"]
 ****
 
-[time=10]
-== Introduction and Set up
+== Lab Goals
 
-In this lab, you set up Apache Camel-K (aka Kamel), to be used as the serverless Camel Development environment on OpenShift Container Platform.
-Camel K utilizes *Knative*, an application development framework on a Kubernetes-based platform - for building, deploying, and managing modern serverless workloads.
-You will use an existing operator known as a *Maistra Operator* to install *Knative*. This operator is also known as the "OpenShift Service Mesh" Operator.
+* Install the Camel K CLI Tool
+* Deploy a Camel K Operator on the Red Hat OpenShift Container Platform environment
+* Build and deploy several Apache Camel Routes on the Red Hat OpenShift Container Platform environment
+* Observe test results from the deployed Apache Camel Routes
+
+[time=45]
+== Environment Setup
+
+In this lab, you set up Apache Camel K (aka Kamel), to be used as the serverless test and development environment for Apache Camel projects, on Red Hat OpenShift Container Platform.
+
+Camel K utilizes a operator, which provides the serverless application development framework support, within a Kubernetes-based platform - for building, deploying, and managing modern serverless workloads.
+You will deploy the Camel K operator first, before you can build, deploy and test any Apache Camel routes.
 
 To learn more about what an operator is, refer to the link:https://github.com/operator-framework/getting-started[Operator Framework Getting Started Guide].
-
-=== Goals
-
-* Utilize Camel-K to install a Camel Route on an Red Hat OpenShift cluster
-* Test Camel Route on an Red Hat OpenShift cluster
-
 
 === Login to OpenShift Container Platform
 
@@ -48,40 +52,56 @@ Were you able to login to the OpenShift Console?
 .. *Password*: `openshift`
 
 . On your desktop, open a terminal shell using, for example, PuTTY for Windows.
-
-. Authenticate with the OpenShift master API for the Integreatly cluster, replacing the value after the `-u` parameter with your assigned User ID and the <GUID> variable in the master API URL with the one assigned to your Integreatly environment.
+. In that terminal, login to your OCP instance by copying the login command from the OpenShift console.
 +
-[source,sh]
-------
-$ oc login -u userXY --server=https://master.demo-<GUID>.openshiftworkshop.com:443
-------
-+
-.Sample Output
-[source,texinfo]
 ------
 Authentication required for https://master.demo-e61f.openshiftworkshop.com:443 (openshift)
 Password:
 Login successful.
-
-You have one project on this server: "userXY"
-
-Using project "userXY".
 ------
++
+NOTE: A successful logon results in a similar message, such as the one shown above.
 
 [type=verification]
-Were you able to login to the OpenShift Container Platform cluster via command line?
+Were you able to login to the Red Hat OpenShift Container Platform environment via command line?
 
-
-[time=30]
-== Interact with Apache Camel-K on OpenShift
-
-In this exercise, you begin utilizing Apacje Camel-K installed on OpenShift Container Platform cluster.
-
-. Download the latest *Camel-K* client binary link:https://github.com/apache/camel-k/releases[release] on your workstation.
-. Update the PATH environment variable with the path to the *Camel-K* client.
-. Execute the following command to validate that *Camel-K* client can be utilized on your workstation:
+* Next, create the project in Red Hat OpenShift Container Platform that will contain both the Camel K Operator and the Apache Camel routes.
+. Use the following command to create a new namespace:
 +
-[source,sh]
+[subs="attributes"]
+----
+oc new-project {user-sanitized-username}-camelk
+
+----
++
+[type=verification]
+Is the new project in OpenShift created successfully?
+
+=== Interact with the Camel K CLI Tool
+
+* In this exercise, you download the Camel K CLI Tool and begin interacting with it.
+
+. Download the archive containing the latest *Camel K* CLI Tool link:https://github.com/apache/camel-k/releases[release] on your workstation.
++
+NOTE: A possible method to perform this download can be:
+----
+wget https://github.com/apache/camel-k/releases/download/1.0.0-M4/camel-k-client-1.0.0-M4-linux-64bit.tar.gz
+----
+
+* Now, proceed with environmental variable setup.
+
+. While in the directory containing the CLI Tool, retrieve the path using the command `pwd`.
+. Update the PATH environment variable, containing the path to the *Camel K* CLI Tool.
++
+----
+pwd
+<path of Camel K CLI Tool>
+export PATH=$PATH:<path of Camel K CLI Tool>
+source ~/.bashrc
+----
++
+. Execute the following command to validate that *Camel K* CLI Tool can be utilized on your workstation:
++
 ----
 kamel version
 ----
@@ -89,19 +109,19 @@ kamel version
 . Expect to receive the version of the client on your console.
 +
 [NOTE]
-This will install the Camel-K operator on the current namespace of your OpenShift Container Platform cluster. In addition, configure the OpenShift Container Platform cluster with the *Camel-K* custom resource definitions.
+This will install the Camel K operator on the current namespace of your OpenShift Container Platform cluster. In addition, configure the OpenShift Container Platform cluster with the *Camel K* custom resource definitions.
+
+[type=taskResource]
+.Custom Resource Definitions in Kubernetes
+****
+* link:https://docs.okd.io/latest/admin_guide/custom_resource_definitions.html[Kubernetes custom resource definitions, window="_blank"]
+****
 
 [type=verification]
-Is the *Camel-K* client installed and usable?
+Is the *Camel K* CLI Tool installed and usable?
 
 
-[time=30]
-== Configuring a Camel-K Integration
-
-Every Camel-K integration have associated configuration properties, which are modified either using a Kubernetes ConfigMap or a Kubernetes Secret.
-Another option is providing a "--property" flag when executing the *kamel* binary.
-
-=== Compile Project
+=== Examine the lab assets
 
 . Open a command-line shell.
 +
@@ -109,310 +129,267 @@ NOTE: For the purposes of these instructions, the local directory for the lab as
 
 . Execute these commands:
 +
-[source,sh]
 ----
 cd $AI_EXERCISE_HOME/camelk
-kamel run --property my.message=test props.js
-----
-+
-. Using your favorite text editor, edit the properties file `props.js` that is associated with the Integration.
-. Change the property to the value `DEBUG`:
-+
-[source,sh]
-----
-logging.level.org.apache.camel = DEBUG
-----
-+
-[NOTE]
-The *camel-k* runtime adopts *log4j2* as the preferred logging framework. By configuration the Integration properties file `props,js` log levels and types of loggers can be changed.
-+
-. Change the following property to the value `25`
-+
-[source,sh]
-----
-camel.component.seda.queueSize = 25
-----
-+
-. This changes the queue size of the SEDA component in the Integration. *QUESTION:* What are your observations when you experiment with various values of this property?
-+
-Any *camel-k* EIP component can be configured:
-+
-* either programmatically within the code of the Integration or
-* using properties with the following syntax:
-+
-[source,sh]
-----
-camel.component.${scheme}.${property} = ${value}
-----
 
-=== Executing a Camel-K Integration
-
-You now activate, in runtime, a Camel-K integration on the OpenShift cluster environment.
-A "Sample.java" application containing a Camel-K integration will be used in this section of the lab.
-
-. Execute these commands:
-+
-[source,sh]
-----
-cd $AI_EXERCISE_HOME/camelk
-vi Sample.java
 ----
 +
-. Examine the source code of the program.
-. Execute the command:
-+
-[source,sh]
-----
-cd $AI_EXERCISE_HOME/camelk
-kamel run Sample.java
-----
-+
-. Examine the results of your execution, in the terminal window.
-
-[type=verification]
-What are the runtime messages that you observe? Do they correlate with the structure of the Camel route defined within the application source?
-
-[type=verification]
-Does the result validate that Apache Camel K and Knative are installed (complete with Knative Build, Eventing and Serving) in your OpenShift cluster? What other tests can you perform to validate this?
+. Examine the contents of the folder, by opening each file using your favorite text editor. Note the files contain various implementations of Apache Camel routes.
 
 
-[time=45]
-== Setup a Java application that utilizes multiple Camel-K integrations
+=== Camel K Operator Installation
 
-You will setup a Camel application that utilizes the Camel K operator on OpenShift.
-The application is built using *Knative* - the essential application development framework for serverless computing.
+* Now, deploy the Camel K operator, which provides the serverless application development framework support. This is an important pre-requisite step to using Camel K on Red Hat OpenShift Container Platform.
 
-Two channels, *messages* and *words* have to be created, using the in-memory channel provisioner.
-The *messages* channel will contain phrases, while the *words* channel will contain the individual words found in each phrase.
-
-. Create the *messages* channel:
+. Type this command to begin the installation process:
 +
-[source,sh]
 ----
-oc create -f $AI_EXERCISE_HOME/camelk/messages-channel.yaml
-----
-
-. Create the *words* channel:
-+
-[source,sh]
-----
-oc create -f $AI_EXERCISE_HOME/camelk/words-channel.yaml
-----
-
-
-=== Build and Deploy a "Printer" Integration
-
-You will build and deploy a Camel-K integration that will print all words from the *words* channel. Under the hood, the Camel-K operator activates a typical Camel-K integration passively, ie: using an external HTTP call (the Knative consumer endpoint).
-
-That integration manifests into a Knative autoscaling service, that can be integrated in a link:http://istio.io[Istio] service mesh.
-Finally, the Camel-K operator adds a Knative Eventing Subscription that references the Knative autoscaling service.
-
-. Examine the file `$AI_EXERCISE_HOME/camelk/printer.groovy` using your favorite editor.
-
-. Analyze the following Camel route defined within:
-+
-[source,java]
------
-from('knative:channel/words')
-  .convertBodyTo(String.class)
-  .to('log:info')
------
-+
-[NOTE] The route writes the contents of the Knative *words* channel to the standard info log stream.
-+
-. In a command line window, execute the integration:
-+
-[source,sh]
-----
-kamel run printer.groovy
+kamel install
 ----
 +
-. In a command line window, execute the integration:
+. This should be the response:
 +
-[source,sh]
+[subs="attributes"]
 ----
-kamel run printer.groovy
-----
-+
-. List the Kubernetes pods in your OpenShift project <project_name>:
-+
-[source,sh]
-----
-oc get po -n <project_name>
-----
-+
-. Observe the listings of the pods similar to this:
-+
-[source,sh]
-----
-NAME                                           READY   STATUS      RESTARTS   AGE
-pod/camel-k-ctx-bjvmobgb7h7um3nbnlmg-1-build   1/1     Running     0          27s
-pod/camel-k-groovy-1-build                     0/1     Completed   0          23h
-pod/camel-k-jvm-1-build                        0/1     Completed   0          23h
-pod/camel-k-kotlin-1-build                     0/1     Completed   0          23h
-pod/camel-k-operator-cdfcfc8c6-m6rhw           1/1     Running     0          23h
-----
-+
-[NOTE] From the example shown, the pod `camel-k-operator-cdfcfc8c6-m6rhw` contains the Camel K operator, while the pods with the `Completed` status were responsible for building the operator when they were active. Finally, the pod `camel-k-ctx-bjvmobgb7h7um3nbnlmg-1-build` is building the new integration `printer`. Also, the resulting `printer` integration will be scaled to 0 when not used, usually after 5 minutes of inactivity.
-
-[type=verification]
-What results do you observe, when you access the logs of both the `printer` build pod and the `printer` pod?
-
-
-=== Build and Deploy a "Splitter" integration
-
-You will build and deploy a `splitter`, based on the Splitter EIP in the Apache Camel framework. The `splitter` will consume all messages from the *messages* channel, perform a split operation on the messages, before finally inserting all the individual words (ie: tokens) into the *words* channel. This `splitter` integration will run as a Knative autoscaling service and waits for a push notification before activating.
-
-. Examine the file `$AI_EXERCISE_HOME/camelk/splitter.groovy` using your favorite editor.
-
-. Analyze the following Camel route defined within:
-+
-[source,java]
------
-from('knative:channel/messages')
-  .split().tokenize(" ")
-  .log('sending ${body} to words channel')
-  .to('knative:channel/words')
------
-+
-[NOTE] The route writes the contents of the *messages* channel to the Knative *words* channel, after tokenization of the messages is complete.
-+
-. In a command line window, execute the integration:
-+
-[source,sh]
-----
-kamel run splitter.groovy
-----
-+
-. Generate a listings of the pods in your current project:
-+
-[source,sh]
-----
-oc get po -n <project_name>
+Camel K installed in namespace {user-sanitized-username}-camelk
 ----
 
 [type=verification]
-What results do you observe, when you access the logs of both the `splitter` build pod and the `splitter` pod?
+Were you able to install the operator?
+
+[type=verificationFail]
+With help from the instructor, ensure your user account has the appropriate privileges and the resource limits of your user clusterquota has not been reached.
 
 
-=== Install a "Feed"
+[time=30]
+== Build and deploy of Apache Camel Routes
 
-You will setup a *timed feed* which will feed messages to this chain of integrations.
+The various implementations of Apache Camel routes (in Javascript, Groovy and Java) will be now be built and deployed for testing.
 
-. Examine the file `$AI_EXERCISE_HOME/camelk/feed.groovy` using your favorite editor.
+=== 1. Plain Old Java Object
 
-. Analyze the following Camel route defined within:
+* Now, update the file `Pojo.java` such that it contains a working Camel route.
+
+. Change working directory to `$AI_EXERCISE_HOME/camelk/`
+. Open the file `Pojo.java` using your favorite text editor.
+. Add the following code, such that it resides within the `configure` method:
 +
-[source,java]
------
-from('timer:clock?period=3s')
-  .setBody().constant("Hello World from Camel K")
-  .to('knative:channel/messages')
-  .log('sent message to messages channel')
------
-+
-[NOTE] The route writes the string `Hello World from Camel K` to the Knative *messages* channel every 3 seconds.
-+
-. In a command line window, execute the integration:
-+
-[source,sh]
 ----
-kamel run feed.groovy
+from("timer:tick?fixedRate=true&period=3000")
+      .log("Camel route is active.");
+
 ----
 +
-. Generate a listings of the pods in your current project:
+. Save your changes.
+. Begin the build and deployment of the route:
 +
-[source,sh]
 ----
-oc get po -n <project_name>
-----
-+
-*QUESTION:* What results do you observe, when you access the logs of both the `feed` build pod and the `feed` pod?
-+
-[NOTE]
-The `feed` pod is not an autoscaling service. However, the operator manages its lifecycle with a mapped OpenShift deployment.
-+
-. Perform the necessary log access, to validate that the `printer` pod generates individual words, which stem from the message feed in 3 second intervals.
-. Stop the `feed` integration:
-+
-[source,sh]
-----
-kamel delete feed
+kamel run Pojo.java --dev
+
 ----
 +
-. Observe that the other Integration services `splitter` and `printer` scale down to 0 within minutes.
-. Reinstall the `feed` Integration:
+. The expected results should begin with:
 +
-[source,sh]
 ----
-kamel run feed.groovy
+integration "pojo" created
+integration "pojo" in phase Initialization
+integration "pojo" in phase Building Kit
+integration "pojo" in phase Deploying
+integration "pojo" in phase Running
+----
+. These are five steps involving a successful build and deployment of a Camel route using Camel K.
++
+[type=verification]
+Were you able to test the Pojo Camel route?
++
+. The remainder of the log trace should indicate that Apache Camel is active and using the Java loader. Also, the message `Camel route is active.` should appear with every 3-second interval.
++
+----
+[1] 2019-11-19 10:50:38.472 INFO  [main] ApplicationRuntime - Add listener: org.apache.camel.k.listener.ContextConfigurer@3c9d0b9d
+[1] 2019-11-19 10:50:38.477 INFO  [main] ApplicationRuntime - Add listener: org.apache.camel.k.listener.RoutesConfigurer@7ee955a8
+[1] 2019-11-19 10:50:38.478 INFO  [main] ApplicationRuntime - Add listener: org.apache.camel.k.listener.RoutesDumper@6ac13091
+[1] 2019-11-19 10:50:38.492 INFO  [main] RuntimeSupport - Looking up loader for language: java
+[1] 2019-11-19 10:50:38.497 INFO  [main] RuntimeSupport - Found loader org.apache.camel.k.loader.java.JavaSourceRoutesLoader@6f96c77 for language java from service definition
+[1] 2019-11-19 10:50:38.952 INFO  [main] RoutesConfigurer - Loading routes from: file:/etc/camel/sources/i-source-000/Pojo.java?language=java
+[1] 2019-11-19 10:50:38.953 INFO  [main] ApplicationRuntime - Listener org.apache.camel.k.listener.RoutesConfigurer@7ee955a8 executed in phase ConfigureRoutes
+[1] 2019-11-19 10:50:38.965 INFO  [main] BaseMainSupport - Using properties from: file:/etc/camel/conf/application.properties
+[1] 2019-11-19 10:50:39.267 INFO  [main] ApplicationRuntime - Listener org.apache.camel.k.listener.ContextConfigurer@3c9d0b9d executed in phase ConfigureContext
+[1] 2019-11-19 10:50:39.268 INFO  [main] DefaultCamelContext - Apache Camel 3.0.0-RC3 (CamelContext: camel-k) is starting
+[1] 2019-11-19 10:50:39.270 INFO  [main] DefaultManagementStrategy - JMX is disabled
+[1] 2019-11-19 10:50:39.480 INFO  [main] DefaultCamelContext - StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html
+[1] 2019-11-19 10:50:39.487 INFO  [main] DefaultCamelContext - Route: route1 started and consuming from: timer://tick?fixedRate=true&period=3000
+[1] 2019-11-19 10:50:39.491 INFO  [main] DefaultCamelContext - Total 1 routes, of which 1 are started
+[1] 2019-11-19 10:50:39.491 INFO  [main] DefaultCamelContext - Apache Camel 3.0.0-RC3 (CamelContext: camel-k) started in 0.223 seconds
+[1] 2019-11-19 10:50:39.492 INFO  [main] ApplicationRuntime - Listener org.apache.camel.k.listener.RoutesDumper@6ac13091 executed in phase Started
+[1] 2019-11-19 10:50:40.505 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Camel route is active.
+[1] 2019-11-19 10:50:43.491 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Camel route is active.
+[1] 2019-11-19 10:50:46.490 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Camel route is active.
 ----
 +
-. Observe that the other Integration services `splitter` and `printer` scales up again, upon receiving messages.
+[type=verification]
+Reduce the interval of message display by 2 seconds. Can you make the necessary changes to the Pojo Camel route and redeploy it successfully?
+
+=== 2. Groovy
+
+* Now, deploy a working Camel route implemented in the Groovy language.
+
+. If you have not done so, change working directory to `$AI_EXERCISE_HOME/camelk/`
+. Open the file `RandomNumbers.groovy` using your favorite text editor.
+. After examining the code, close the editor without making any modifications.
+. Begin the build and deployment of the route:
++
+----
+kamel run RandomNumbers.groovy --dev
+
+----
++
+. Observe that random numbers are generated with each time interval:
++
+----
+[1] 2019-11-19 09:12:22.354 INFO  [main] DefaultCamelContext - Route: groovy started and consuming from: timer://groovy?period=1s
+[1] 2019-11-19 09:12:22.356 INFO  [main] DefaultCamelContext - Total 1 routes, of which 1 are started
+[1] 2019-11-19 09:12:22.356 INFO  [main] DefaultCamelContext - Apache Camel 3.0.0-RC3 (CamelContext: camel-k) started in 0.185 seconds
+[1] 2019-11-19 09:12:22.357 INFO  [main] ApplicationRuntime - Listener org.apache.camel.k.listener.RoutesDumper@161479c6 executed in phase Started
+[1] 2019-11-19 09:12:23.396 INFO  [Camel (camel-k) thread #1 - timer://groovy] info - body: Generating a random number, random-value: -1477281199
+[1] 2019-11-19 09:12:24.357 INFO  [Camel (camel-k) thread #1 - timer://groovy] info - body: Generating a random number, random-value: 303538366
+[1] 2019-11-19 09:12:25.357 INFO  [Camel (camel-k) thread #1 - timer://groovy] info - body: Generating a random number, random-value: -1596066435
+[1] 2019-11-19 09:12:26.357 INFO  [Camel (camel-k) thread #1 - timer://groovy] info - body: Generating a random number, random-value: 955225287
+----
++
+[type=verification]
+Have modifications made to the Camel route such that only one random number appears all the time, from start to finish. Can you make the necessary changes to the Camel route and redeploy it successfully?
+
+=== 3. Complex route implemented in Java
+
+* Now, deploy another Camel route implemented in the Java language. This route simulates the operations (GET, PUT, INVALIDATE) of a key-value cache,
+
+. If you have not done so, change working directory to `$AI_EXERCISE_HOME/camelk/`
+. Open the file `KeyValueTest.java` using your favorite text editor.
+. After examining the code, close the editor without making any modifications.
+. Begin the build and deployment of the route:
++
+----
+kamel run KeyValueTest.java --dev
+
+----
++
+. Observe that keyword `Hello` appears as a result of both the PUT and GET actions:
++
+----
+[1] 2019-11-19 08:53:23.610 INFO  [main] ApplicationRuntime - Listener org.apache.camel.k.listener.RoutesDumper@161479c6 executed in phase Started
+[1] 2019-11-19 08:53:24.626 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action PUT with key 1 is: Hello
+[1] 2019-11-19 08:53:24.629 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action GET with key 1 is: Hello
+[1] 2019-11-19 08:53:24.630 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Invalidating entry with key 1
+[1] 2019-11-19 08:53:24.632 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - The Action GET with key 1 has result? false
+[1] 2019-11-19 08:53:25.608 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action PUT with key 1 is: Hello
+[1] 2019-11-19 08:53:25.609 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action GET with key 1 is: Hello
+[1] 2019-11-19 08:53:25.609 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Invalidating entry with key 1
+----
++
+[type=verification]
+Have modifications made to the Camel route such that the value `true` appears in the line `The Action GET with key 1 has result?` Aim to achieve similar results like this:
++
+----
+[1] 2019-11-19 08:54:37.449 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - The Action GET with key 1 has result? true
+[1] 2019-11-19 08:54:38.447 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action PUT with key 1 is: Hello
+[1] 2019-11-19 08:54:38.448 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action GET with key 15 is:
+[1] 2019-11-19 08:54:38.448 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Invalidating entry with key 12
+[1] 2019-11-19 08:54:38.449 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - The Action GET with key 1 has result? true
+[1] 2019-11-19 08:54:39.446 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action PUT with key 1 is: Hello
+[1] 2019-11-19 08:54:39.447 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Result of Action GET with key 15 is:
+[1] 2019-11-19 08:54:39.447 INFO  [Camel (camel-k) thread #1 - timer://tick] route1 - Invalidating entry with key 12
+----
+
+=== 4. Route implemented in Javascript
+
+* Now, deploy another Camel route implemented in the Javascript language.
+
+. If you have not done so, change working directory to `$AI_EXERCISE_HOME/camelk/`
+. Open the file `SimpleRoute.js` using your favorite text editor.
+. After examining the code, close the editor without making any modifications.
+. Begin the build and deployment of the route:
++
+----
+kamel run SimpleRoute.js --dev
+
+----
++
+. Observe that the Javascript `js` loader is used to deploy the Camel route:
++
+----
+[1] 2019-11-19 11:14:18.345 INFO  [main] RuntimeSupport - Looking up loader for language: js
+[1] 2019-11-19 11:14:18.449 INFO  [main] RuntimeSupport - Found loader org.apache.camel.k.loader.js.JavaScriptRoutesLoader@2638011 for language js from service definition
+[1] 2019-11-19 11:14:18.622 INFO  [main] RoutesConfigurer - Loading routes from: file:/etc/camel/sources/i-source-000/simple.js?language=js
+----
++
+. Observe that the exact message is repeated with every time interval.
++
+----
+[1] 2019-11-19 09:14:18.243 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route js
+[1] ]
+[1] 2019-11-19 09:14:19.140 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route js
+[1] ]
+[1] 2019-11-19 09:14:20.140 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route js
+[1] ]
+
+----
++
+. Add the following code to SimpleRoute.js. This implements a second route called `nodejs`
++
+----
+from('timer:js?period=2s')
+    .routeId('nodejs')
+    .setBody()
+        .simple('Message generated by route ${routeId}')
+    .to('log:info?multiline=true')
+----
++
+. Redeploy the Camel route.
+. Observe the new results:
++
+----
+[1] 2019-11-19 11:14:20.924 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route nodejs
+[1] ]
+[1] 2019-11-19 11:14:20.927 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route js
+[1] ]
+[1] 2019-11-19 11:14:21.925 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route js
+[1] ]
+[1] 2019-11-19 11:14:22.813 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route nodejs
+[1] ]
+[1] 2019-11-19 11:14:22.927 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route js
+[1] ]
+[1] 2019-11-19 11:14:23.926 INFO  [Camel (camel-k) thread #1 - timer://js] info - Exchange[
+[1]   ExchangePattern: InOnly
+[1]   BodyType: String
+[1]   Body: Message generated by route js
+----
 
 [type=verification]
-Do both Integration services retain their original function after scaling up?
+Why does the `js` route generates twice more messages than the `nodejs` route with each iteration? What changes are needed to have `js` route generate thrice more messages than `nodejs` in the same iteration?
 
 
-ifdef::showscript[]
-
-****
-+
-image::images/kamel.png[diagram, role="integr8ly-img-responsive"]
-
-== *OPTIONAL EXERCISES*
-
-You will implement 2 complex message feeds. The first feed involves inbound messages sent from link:https://web.telegram.org/[Telegram] (a mobile messaging app service) as the new message source. The next feed involves inbound messages sent from link:https://slack.com/[Slack] (a collaboration app service) as the new message source.
-
-=== Install a Telegram "Feed"
-
-. Create this Camel route within a file named `telegram.groovy`
-+
-[source,java]
------
-from('telegram:bots/<botfather-authorization>')
-  .convertBodyTo(String.class)
-  .to('log:info')
-  .to('knative:channel/messages')
------
-+
-[NOTE] In the code snippet, replace `<botfather-authorization>` with the Authorization URL for your Telegram Bot. Refer to the link:https://core.telegram.org/bots[Telegram Bot documentation] for more details.
-+
-. Build and deploy the `telegram` Integration:
-+
-[source,sh]
-----
-kamel run telegram.groovy
-----
-+
-. Once your `telegram` pod is active, send messages using your Telegram mobile app.
-. Observe, in the `printer` pod log, all individual words that appear.
-
-=== Install a Slack "Feed"
-
-. Replace the contents of the file named `printer.groovy`
-+
-[source,java]
------
-from('knative:channel/words')
-  .log('Received: ${body}')
-  .to('slack:#camel-k-tests')
-
-context {
-  components {
-    slack {
-      webhookUrl '<inbound-webhook-url>'
-    }
-  }
-}
------
-+
-[NOTE] In the code snippet, replace `<inbound-webhook-url>` with the URL for the webhook defined for your inbound Slack messages. Refer to the link:https://get.slack.help/[Slack documentation] for more details.
-+
-. Redeploy the `printer` Integration.
-. Observe that individual words still appear log in the `printer` pod.
-. Observe that individual words are also forwarded to the Slack channel named *#camel-k-tests*.
-
-*Congratulations, you have have completed the Apache Camel-K lab!*
-
-endif::[]
+*Congratulations, you have have completed the Apache Camel K lab!*
