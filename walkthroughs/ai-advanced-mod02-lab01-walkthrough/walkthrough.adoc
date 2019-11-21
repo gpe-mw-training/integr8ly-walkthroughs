@@ -9,6 +9,13 @@ A lab based on Springboot Camel to consume CSV records from a file, split and tr
 ****
 
 [type=walkthroughResource]
+.CodeReady Workspaces
+****
+* link:{codeready-url}[Console, window="_blank"]
+****
+
+
+[type=walkthroughResource]
 .Useful Resources
 ****
 * link:https://google.com[Helpful link, window="_blank"]
@@ -35,6 +42,8 @@ image::images/Fuse_Exp_Usecase_Mod1_File.png[diagram, role="integr8ly-img-respon
 
 === Import the Project into Red Hat CodeReady Studio
 
+[NOTE} Use the following steps only if you are using CodeReady Studio installed on your laptop. Otherwise, you can skip this section.
+
 . Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
 .. Select *Maven -> Existing Maven Projects* and click *Next*.
@@ -43,6 +52,52 @@ image::images/Fuse_Exp_Usecase_Mod1_File.png[diagram, role="integr8ly-img-respon
 .. Click *Finish*.
 
 . The imported use case now appears in Red Hat CodeReady Studio.
+
+[type=verification]
+Did the project get imported correctly to your workspace?
+
+[type=verificationFail]
+Ensure the project pom is selected and there are no build errors on import.
+
+[type=taskResource]
+.Red Hat CodeReady Studio
+****
+* link:https://access.redhat.com/documentation/en-us/red_hat_developer_studio/12.9/[Red Hat CodeReady Studio Product Documentation, window="_blank"]
+****
+
+=== Launch Red Hat CodeReady Workspace (Optional)
+
+[NOTE} Follow the below steps *only* if you are using CodeReady workspace on OpenShift for your development. Otherwise, you can skip this section.
+
+. Click on the *Red Hat CodeReady Workspaces* link. The CodeReady Workspace opens in a new tab. 
+
+. Logon to link:{codeready-url}[CodeReady Workspaces, window="_blank"] using dummy values for `First Name` and `Last Name`. Click *Submit*.
+
+. Use your unique username as your workspace name e.g. `{user-username}`.  Select the _Red Hat Fuse_ stack and increase the RAM to 4GB.
+
+. Click on **Create & Open**.
+
+
+[type=verification]
+Did fuse workspace launch correctly in CodeReady workspace?
+
+[type=verificationFail]
+Ensure that the steps are followed correctly, and wait until the workspace is launched before proceeding to next steps.
+
+=== Import Project to CodeReady Workspace (Optional)
+
+[NOTE} Follow the below steps only if you are using CodeReady workspace on OpenShift for your development. Otherwise, you can skip this section.
+
+. Navigate to the CodeReady Workspace tab where the workspace `{user-username}` is launched.
+.. Select *Import Project* from the menu.
+.. Provide the url: http://gogs.{openshift-app-host}/{user-username}/agile_integration_advanced_labs.git
+.. Select *Import recursively* checkbox
+
+
+. The imported projects now appears in Red Hat CodeReady Workspace.
+. Right click on the project *file-split-transform-lab* and choose *Convert Project to*.
+. Choose *Maven*
+
 
 [type=verification]
 Did the project get imported correctly to your workspace?
@@ -173,26 +228,4 @@ Is the camel route starting correctly and running without errors?
 ****
 * link:http://camel.apache.org/spring-testing.html[Apache Camel Spring Test Support, window="_blank"]
 ****
-
-[time=10]
-== Fuse Project Setup
-
-=== Verify URLs
-
-. Click on link:{openshift-host}[Openshift Console, window="_blank"]
-. Click on link:{openshift-app-host}[Openshift App Host, window="_blank"]
-. Click on link:{che-url}[CodeReady Workspace, window="_blank"]
-. Click on link:{fuse-url}[Fuse Online, window="_blank"]
-. Click on link:{launcher-url}[Launcher, window="_blank"]
-. Click on link:{api-management-url}[3scale Admin Console, window="_blank"]
-. Click on link:{enmasse-url}[AMQ Online Console, window="_blank"]
-. Enmasse Broker Connection:
-.. AMQ Online Broker URL: *{enmasse-broker-url}*
-.. AMQ Online Credential Username: *{enmasse-credentials-username}*
-.. AMQ Online Credential Password: *{enmasse-credentials-password}*
-. Click on link:{route-nodejs-messaging-work-queue-frontend-host}[NodeJS messaging FrontEnd, window="_blank"]
-
-[type=verification]
-Are all the URLs displayed correctly?
-
 
