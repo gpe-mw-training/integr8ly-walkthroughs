@@ -35,6 +35,7 @@ image::images/Fuse_Exp_Usecase_Mod3.png[diagram, role="integr8ly-img-responsive"
 
 === Import the Project into Red Hat CodeReady Studio
 
+NOTE: If you are using CodeReady Workspace on OpenShift, you can skip this step and instead use the project *rest-publish-and-fix-errors-lab* on CodeReady Workspace console.
 
 . Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
@@ -126,11 +127,14 @@ Is the camel route coding complete?
 
 === Prepare the AMQ Broker
 
+NOTE: If you are using AMQ Broker on OpenShift with port forwarding, you can skip the steps below.
+
 . Start the Red Hat AMQ broker instance and make sure it has connectors for AMQP enabled, listening on port 5672.
 . Open the AMQ Console at URL `http://localhost:8161`.
 . Login to the AMQ console with credentials `admin` and `password`.
 . Create the queue `accountQueue`  as *AnyCast* queues if they are not created in previous lab.
 . Create the topic `errorNotification` as *Anycast* topic.
+
 
 === Run the Camel Route 
 

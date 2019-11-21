@@ -42,7 +42,7 @@ image::images/Fuse_Exp_Usecase_Mod1_File.png[diagram, role="integr8ly-img-respon
 
 === Import the Project into Red Hat CodeReady Studio
 
-[NOTE} Use the following steps only if you are using CodeReady Studio installed on your laptop. Otherwise, you can skip this section.
+NOTE: Use the following steps only if you are using CodeReady Studio installed on your laptop. Otherwise, you can skip this section.
 
 . Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
@@ -67,7 +67,7 @@ Ensure the project pom is selected and there are no build errors on import.
 
 === Launch Red Hat CodeReady Workspace (Optional)
 
-[NOTE} Follow the below steps *only* if you are using CodeReady workspace on OpenShift for your development. Otherwise, you can skip this section.
+NOTE: Follow the below steps *only* if you are using CodeReady workspace on OpenShift for your development. Otherwise, you can skip this section.
 
 . Click on the *Red Hat CodeReady Workspaces* link. The CodeReady Workspace opens in a new tab. 
 
@@ -86,7 +86,7 @@ Ensure that the steps are followed correctly, and wait until the workspace is la
 
 === Import Project to CodeReady Workspace (Optional)
 
-[NOTE} Follow the below steps only if you are using CodeReady workspace on OpenShift for your development. Otherwise, you can skip this section.
+NOTE: Follow the below steps only if you are using CodeReady workspace on OpenShift for your development. Otherwise, you can skip this section.
 
 . Navigate to the CodeReady Workspace tab where the workspace `{user-username}` is launched.
 .. Select *Import Project* from the menu.

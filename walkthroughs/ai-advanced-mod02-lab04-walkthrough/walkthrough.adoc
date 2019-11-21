@@ -36,6 +36,7 @@ image::images/Fuse_Exp_Usecase_Mod2.png[diagram, role="integr8ly-img-responsive"
 
 === Import the Project into Red Hat CodeReady Studio
 
+NOTE: If you are using CodeReady Workspace on OpenShift, you can skip this step and instead use the projects *soap-cxfws-service*, *rest-cxfrs-service* and *amq-enrich-persist-lab* on CodeReady Workspace console.
 
 . Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
@@ -379,6 +380,8 @@ Is the camel route coding complete?
 == Verify your Solution
 
 === Prepare the AMQ Broker
+
+NOTE: If you are using AMQ Broker on OpenShift with port forwarding, you can skip the steps below.
 
 . Start the Red Hat AMQ broker instance and make sure it has connectors for AMQP enabled, listening on port 5672.
 . Open the AMQ Console at URL `http://localhost:8161`.

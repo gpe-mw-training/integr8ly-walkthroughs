@@ -31,6 +31,9 @@ SOAP-based services are plentiful in many enterprise solutions and are slowly be
 
 === Import the Project into Red Hat CodeReady Studio
 
+NOTE: If you are using CodeReady Workspace on OpenShift, you can skip this step and instead use the project *rest-publish-and-fix-errors-lab* on CodeReady Workspace console.
+
+NOTE: This lab uses the *SOAP to REST Wizard* available in Fuse Tooling on Red Hat CodeReady Studio. This wizard is not available on CodeReady Workspace on OpenShift, so you need to copy the code and create your own camel route for mapping SOAP to REST endpoints.
 
 . Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
@@ -99,7 +102,7 @@ image::images/legacy-soap-wsdl-import-3.png[diagram, role="integr8ly-img-respons
 mvn spring-boot:run -Dfabric8.skip
 ----
 
-. The Camel service should be running on port 808, and can be accessed through URL: link:http://localhost:8080/api/jaxrs/account[http://localhost:8080/api/jaxrs/account].
+. The Camel service should be running on port 8080, and can be accessed through URL: link:http://localhost:8080/api/jaxrs/account[http://localhost:8080/api/jaxrs/account].
 . Send a test request to the REST service and check if the backend service is invoked correctly:
 +
 ----
