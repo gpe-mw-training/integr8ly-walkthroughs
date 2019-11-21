@@ -34,8 +34,7 @@ In this lab, you set up the environment for the labs in this course. You will in
 * OPENTLC credentials
 * Enough disk space to install Red Hat CodeReady Studio, Red Hat Fuse, Red Hat AMQ and other programming tools (Maven, OpenShift CLI, Java).
 +
-[IMPORTANT]
-Make sure that the Internet connection is free of corporate proxies or other network rules that prevent access to remote servers on the Internet.
+NOTE: Make sure that the Internet connection is free of corporate proxies or other network rules that prevent access to remote servers on the Internet.
 
 [time=60]
 == Install on Local Workstation
@@ -80,13 +79,13 @@ $ git clone https://github.com/gpe-mw-training/agile_integration_advanced_labs.g
 $ cd agile_integration_advanced_labs/code
 ----
 +
-[NOTE]
-This is the root folder for the lab assets. The absolute path to this folder is referred to as `$AI_EXERCISE_HOME` in the instructions.
+NOTE: This is the root folder for the lab assets. The absolute path to this folder is referred to as `$AI_EXERCISE_HOME` in the instructions.
 
 
 === Install Red Hat CodeReady Studio
 
-[NOTE] If you are using *CodeReady Workspace* on OpenShift, you can skip this step and proceed to next section.
+[NOTE] 
+If you are using *CodeReady Workspace* on OpenShift, you can skip this step and proceed to next section.
 
 . Using your browser, navigate to the product page for link:https://developers.redhat.com/products/codeready-studio/[Red Hat CodeReady Studio].
 
@@ -124,7 +123,7 @@ Please follow the links on the right to download and install Red Hat CodeReady S
 
 === Install Red Hat Fuse 7.4.0 (Optional)
 
-[NOTE} If you are using CodeReady Workspace on OpenShift, you can skip this installation.
+NOTE: If you are using CodeReady Workspace on OpenShift, you can skip this installation.
 
 If you want to deploy and run the labs locally, you will need to install Red Hat Fuse on your laptop. Please download the Red Hat Fuse install from link:https://developers.redhat.com/products/fuse/download/[Red Hat Fuse Download] and follow the installation steps.
 
@@ -370,7 +369,7 @@ Please follow the links on the right to follow the installation steps for Postgr
 
 === Import Lab Assets to Gogs (Optional)
 
-[NOTE] Follow the steps below *only* if you are using CodeReady Workspace on OpenShift for your development.
+NOTE: Follow the steps below *only* if you are using CodeReady Workspace on OpenShift for your development.
 
 . Click on ink:{gogs-url}[Gogs Console, window="_blank"] to open the Gogs console.
 . Login using your `{user-username}` and password.
