@@ -376,8 +376,8 @@ Please follow the links on the right to follow the installation steps for Postgr
 
 NOTE: Follow the steps below *only* if you are using CodeReady Workspace on OpenShift for your development.
 
-. Click on ink:{gogs-url}[Gogs Console, window="_blank"] to open the Gogs console.
-. Login using your `{user-username}` and password.
+. Click on link:{gogs-url}[Gogs Console, window="_blank"] to open the Gogs console.
+. Login using your userid `{user-username}` and password provided.
 . Create a new repository named *agile_integration_advanced_labs*.
 . In you laptop, open a console and navigate to git repository *ai_advanced_labs/agile_integration_advanced_labs*
 +
@@ -387,8 +387,10 @@ cd ~/ai_advanced_labs/agile_integration_advanced_labs
 
 . Add the gogs remote repository and push the code:
 +
+[source,bash,subs="attributes+"]
 ----
 git remote add {user-username} http://gogs.{openshift-app-host}/{user-username}/agile_integration_advanced_labs.git
+
 git push -u {user-username} master
 ----
 
