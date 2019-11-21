@@ -1,3 +1,5 @@
+:user-password: openshift
+
 = Agile Integration Advanced LAB 3 - Fuse REST, Split and Transform Lab
 
 A lab based on Springboot Camel to consume CSV records from a REST endpoint, split and transform to individual JSON output records to an AMQ queue.
@@ -35,6 +37,7 @@ image::images/Fuse_Exp_Usecase_Mod1_Rest.png[diagram, role="integr8ly-img-respon
 
 === Import the Project into Red Hat CodeReady Studio
 
+NOTE: If you are using CodeReady Workspace on OpenShift, you can skip this step and instead use the project *rest-split-transform-amq-lab* on CodeReady Workspace console.
 
 . Open *Red Hat CodeReady Studio*.
 .. Select *File -> Import* from the menu.
@@ -105,12 +108,45 @@ Is the camel route coding complete?
 [time=20]
 == Verify your Solution
 
-=== Prepare the AMQ Broker
+=== Prepare the Local AMQ Broker 
 
 . Start the Red Hat AMQ broker instance and make sure it has connectors for AMQP enabled, listening on port 5672.
 . Open the AMQ Console at URL `http://localhost:8161`.
 . Login to the AMQ console with credentials `admin` and `password`.
 . Create the queues `accountQueue` and `errorQueue` as *AnyCast* queues.
+
+=== Use AMQ Broker on OpenShift with Port Forwarding (Optional)
+
+NOTE: If you are using Code Ready Workspaces or did not install AMQ Broker locally, you can follow the below steps to use the AMQ Broker you deployed on OpenShift.
+
+. Open a terminal and login to OpenShift.
++
+[subs="attributes"]
+----
+oc login {openshift-host} -u {user-username} -p {user-password}
+----
+
+. Navigate to *{user-username}-fuse* project.
++
+[subs="attributes"]
+----
+oc project {user-username}-fuse
+
+----
+
+. Get the pod id of the broker:
++
+----
+oc get pods | grep broker
+----
+
+. Use the pod to set up port forwarding from localhost:
++
+----
+oc port-forward <pod> 5672:5672
+----
+
+NOTE: As long as this terminal is open, a port-forwarding is set up to this pod on port 5672. Hence, you can use AMQP to localhost:5672 and this will be routed to AMQ broker on OpenShift.
 
 === Run the Camel Route 
 
