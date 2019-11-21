@@ -367,6 +367,11 @@ Please follow the links on the right to follow the installation steps for Postgr
 .Red Hat OpenShift Documentation
 ****
 
+* link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.4/html-single/deploying_amq_broker_on_openshift_container_platform/[AMQ Installation of OpenShift Guide, window="_blank"]
+* link:https://docs.openshift.com/container-platform/3.10/using_images/db_images/postgresql.html[PostgreSQL on OpenShift guide, window="_blank"]
+
+****
+
 === Import Lab Assets to Gogs (Optional)
 
 NOTE: Follow the steps below *only* if you are using CodeReady Workspace on OpenShift for your development.
@@ -390,7 +395,3 @@ git push -u {user-username} master
 . Notice that the labs are imported to your gogs repository.
 
 
-* link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.4/html-single/deploying_amq_broker_on_openshift_container_platform/[AMQ Installation of OpenShift Guide, window="_blank"]
-* link:https://docs.openshift.com/container-platform/3.10/using_images/db_images/postgresql.html[PostgreSQL on OpenShift guide, window="_blank"]
-
-****
