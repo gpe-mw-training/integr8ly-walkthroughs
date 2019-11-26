@@ -224,7 +224,7 @@ oc policy add-role-to-user view system:serviceaccount:{user-sanitized-username}-
 +
 [subs="attributes"]
 ----
-oc get templates | grep amq-broker
+oc get templates -n openshift | grep amq-broker
 ----
 +
 . Using the latest AMQ Broker template, deploy the broker:
