@@ -70,16 +70,16 @@ This course comes with a variety of lab assets that are version-controlled in Gi
 +
 [source,sh]
 ----
-$ mkdir ai_advanced_labs
-$ cd ai_advanced_labs
+mkdir ai_advanced_labs
+cd ai_advanced_labs
 ----
 
 . From this new directory, download the lab assets from GitHub and change your working directory to `agile_integration_advanced_labs/code`:
 +
 [source,sh]
 ----
-$ git clone https://github.com/gpe-mw-training/agile_integration_advanced_labs.git
-$ cd agile_integration_advanced_labs/code
+git clone https://github.com/gpe-mw-training/agile_integration_advanced_labs.git
+cd agile_integration_advanced_labs/code
 ----
 +
 NOTE: This is the root folder for the lab assets. The absolute path to this folder is referred to as `$AI_EXERCISE_HOME` in the instructions.
