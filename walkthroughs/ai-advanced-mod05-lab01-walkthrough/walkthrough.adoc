@@ -72,7 +72,7 @@ Create the `addresses` on the AMQ Online console, and get information about acce
 === Addresses
 
 . In the AMQ Online Management Console, click on `Create`.
-. Provide name of the address as `AccountQueue`.
+. Provide name of the address as `accountQueue`.
 . Choose type `Anycast`.
 +
 image::images/amq_online_create_accountqueue.png[diagram, role="integr8ly-img-responsive"]
@@ -90,7 +90,7 @@ image::images/amq_online_create_accountqueue_plan.png[diagram, role="integr8ly-i
 +
 image::images/amq_online_list_accountqueue.png[diagram, role="integr8ly-img-responsive"]
 
-. Repeat the above process to create the topic `ErrorNotification` and queue `InputQueue`.
+. Repeat the above process to create the topic `errorNotification` and queue `inputQueue`.
 . You should have all 3 addresses available in the console.
 +
 image::images/amq_online_list_addresses.png[diagram, role="integr8ly-img-responsive"]
@@ -116,7 +116,7 @@ The AMQ Online in this environment is set up to use your OpenShift credentials u
 . Open the file `application.properties`.
 . Replace the `amqp.host`, `amqp.username` and `amqp.password` with the above credentials.
 . Redeploy the application to OpenShift by running `mvn fabric8:deploy` from the project root folder.
-. Send a test request and confirm that the messages are send correctly to the `InputQueue`, `AccountQueue` and `ErrorNotification` addresses successfully.
+. Send a test request and confirm that the messages are send correctly to the `inputQueue`, `accountQueue` and `errorNotification` addresses successfully.
 
 
 [type=verification]
